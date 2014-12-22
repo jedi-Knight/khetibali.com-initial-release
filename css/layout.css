@@ -13,7 +13,7 @@
     height: 100%;
     color: #a0cf85;
     font-family: "Myriad Pro", "Verdana";
-    padding: 20px 0px 0px 10px;
+    padding: 0px 0px 0px 10px;
     
     -moz-user-select: none;
     -o-user-select: none;
@@ -29,17 +29,25 @@
     pointer-events: none;
 }
 
-.sidebar.left div{
+.sidebar.left .ui-navigation-group a{
+    display: inline-block;
     font-size: 2em;
-    margin-top: 38pt;
+    margin: 19pt 0px 19pt 20px;
     /*line-height: 68pt;*/
     width: 268px;
-    margin-left: 20px;
     cursor: pointer;
 }
-.sidebar.left div:hover, .sidebar.left div:active{
+.sidebar.left .ui-navigation-group a:hover, .sidebar.left .ui-navigation-group a:active{
     color: #0078a8;
     text-style: underline;
+}
+
+.sidebar.left div.controls{
+    padding: 6px 4px 0px 0px;
+    height: 14px;
+}
+.sidebar.left div.controls a{
+    float: right;
 }
 
 .panel.bottom.right{

@@ -63,7 +63,20 @@ $(document).ready(function() {
             eventOptions: {
                 contentDef: mainNavContentDef
             },
-            class: "left"
+            controls: function(){
+                return $("<div class='controls'></div>").append(function(){
+                    return new UI_Button({
+                       attributes: {
+                           class: "ui-sidebar-toggle"
+                       },
+                       eventHandlers: {
+                           
+                       },
+                       content: "<span>X</span>"
+                    });
+                });
+            }(),
+            class: "sidebar left"
         };
 
         (new UI_Navigation(navigationColumnOptions)).done(function(uiObject){
