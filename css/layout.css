@@ -1,3 +1,7 @@
+body{
+    overflow: hidden;
+}
+
 #map{
     width: 100%;
     height: 630px;
@@ -80,7 +84,8 @@
 .sidebar-float{
     position: absolute;
     top: 20px;
-    left: 288px;
+    /*left: 288px;*/
+    left: 290px;
     max-width: 900px;
     max-height: 620px;
     overflow: auto;
@@ -148,7 +153,21 @@
     /*float: right;*/
 }
 
+.panel-control-icon{
+    width: 10px;
+    height: 20px;
+    display: inline-block;
+    font-family: "Verdana";
+    color: #306630;
+    text-shadow: 0px 0px 4px #ffffff;
+}
 
+a.panel-control-button{
+    position: absolute;
+    right: 6px;
+    text-align: right;
+    cursor: pointer;
+}
 
 /*.leaflet-left{
     display:none;

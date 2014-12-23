@@ -44,9 +44,9 @@ $(document).ready(function() {
 
     mapGlobals.mapData = mapData;
 
-  
 
 
+    //var floatingPageWidget = null;
 
     var navigationColumnOptions = {
         title: "<h1>" + config["navbar"]["title"] + "</h1>",
@@ -55,17 +55,77 @@ $(document).ready(function() {
             },
             eventHandlers: {
                 click: function(e, eventOptions) {
-                    ((new UI_PanelDocumentSinglePage({
-                        contentDeferred: mapData.fetchData({
-                            "query": {
-                                url: eventOptions.tabName.toLowerCase().replace(/ /g, "_")+".json"
-                                //url: "about_khetibali.json"
-                            },
-                            "query-type": "widget-query",
-                            "widget": "navigation",
-                            "group": eventOptions.tabName
-                        })
-                    })).getDocument()).appendTo("body");
+                    //if (floatingPageWidget) {
+                    var floatingPageWidget = $("body").find(".panel-document");
+                    if(floatingPageWidget.length){
+                        var floatingPageWidgetContents = (new UI_PanelDocumentSinglePage({
+                            contentDeferred: mapData.fetchData({
+                                "query": {
+                                    url: eventOptions.tabName.toLowerCase().replace(/ /g, "_") + ".json"
+                                            //url: "about_khetibali.json"
+                                },
+                                "query-type": "widget-query",
+                                "widget": "navigation",
+                                "group": eventOptions.tabName
+                            }),
+                            titleBar: {
+                                controls: function() {
+                                    return new UI_Button({
+                                        attributes:{
+                                            class: "panel-control-button"
+                                        },
+                                        eventHandlers:{
+                                            click: function(e, eventOptions){
+//                                                $(this).closest(".panel-document").remove();
+//                                                eventOptions.target=null;
+                                                  $(eventOptions.target).remove();
+                                            }
+                                        },
+                                        eventOptions:{
+                                            target: floatingPageWidget
+                                        },
+                                        content: "<div class='panel-control-icon'>X</div>"
+                                    });
+                                }
+                            }
+                        })).getDocument().children();
+                        floatingPageWidget.children().remove();
+                        floatingPageWidget.append($(floatingPageWidgetContents));
+                    } else {
+                        floatingPageWidget = (new UI_PanelDocumentSinglePage({
+                            contentDeferred: mapData.fetchData({
+                                "query": {
+                                    url: eventOptions.tabName.toLowerCase().replace(/ /g, "_") + ".json"
+                                            //url: "about_khetibali.json"
+                                },
+                                "query-type": "widget-query",
+                                "widget": "navigation",
+                                "group": eventOptions.tabName
+                            }),
+                            titleBar: {
+                                controls: function() {
+                                    return new UI_Button({
+                                        attributes:{
+                                            class: "panel-control-button"
+                                        },
+                                        eventHandlers:{
+                                            click: function(e, eventOptions){
+                                                $(this).closest(".panel-document").children().remove();
+//                                                eventOptions.target=null;
+                                                  //$(eventOptions.target).remove();
+                                            }
+                                        },
+                                        eventOptions:{
+                                            target: floatingPageWidget
+                                        },
+                                        content: "<div class='panel-control-icon'>X</div>"
+                                    });
+                                }
+                            }
+                        })).getDocument();
+
+                        floatingPageWidget.appendTo("body");
+                    }
                 }
             },
             tabs: config["navbar"]["tabs"]

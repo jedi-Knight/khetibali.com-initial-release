@@ -963,7 +963,7 @@ function UI_PanelDocumentSinglePage(options) {
     var titleBarNode = document.createElement("div");
 
     var titleBar = options.titleBar ? $(titleBarNode).append(function() {
-        return $(_controls.append(options.titleBarJson.controls));
+        return $(_controls.append(options.titleBar.controls));
     }).addClass("titleBar panel-document-titleBar") : null;
     var _page = $("<div/>").addClass("panel-document-page");
 
