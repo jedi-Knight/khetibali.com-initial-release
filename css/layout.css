@@ -159,7 +159,11 @@ body{
     display: inline-block;
     font-family: "Verdana";
     color: #306630;
-    text-shadow: 0px 0px 4px #ffffff;
+    text-shadow: 0px 0px 6px #ffffff, 0px 0px 4px #ffffff, 0px 0px 2px #ffffff;
+}
+
+a.panel-control-button:hover .panel-control-icon{
+    text-shadow: 0px 0px 6px #ffffff, 0px 0px 4px #ffffff, 0px 0px 4px #ffffff, 0px 0px 2px #000000;
 }
 
 a.panel-control-button{
