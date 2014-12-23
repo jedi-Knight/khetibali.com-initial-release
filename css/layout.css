@@ -4,6 +4,32 @@
     /*position:absolute;*/
 }
 
+
+.panel.bottom.right{
+    position:absolute;
+    right: 0px;
+    bottom: 0px;
+    /*width: 598px;*/
+    /*height: 134px;*/
+}
+.panel.bottom.right a{
+    /*width: 60px;*/
+    /*height: 60px;*/
+    padding-right: 4px;
+    /*display: flex;*/
+    /*flex-flow: column wrap;*/
+    display:inline-block;
+    cursor: pointer;
+}
+.panel.bottom.right a:hover{
+    background-color: rgba(160,207,133,0.8);
+}
+
+.panel, .sidebar{
+    background-color: rgba(255,255,255,0.9);
+    box-shadow: 0px 0px 6px rgba(0,0,0,0.6);
+}
+
 .sidebar.left{
     position: absolute;
     display: inline-block;
@@ -50,25 +76,52 @@
     float: right;
 }
 
-.panel.bottom.right{
-    position:absolute;
-    right: 0px;
-    bottom: 0px;
-    /*width: 598px;*/
-    /*height: 134px;*/
+
+.sidebar-float{
+    position: absolute;
+    top: 20px;
+    left: 288px;
+    max-width: 900px;
+    max-height: 620px;
+    overflow: auto;
+    background-color: rgba(160, 207, 133, 0.8);
 }
-.panel.bottom.right a{
-    /*width: 60px;*/
-    /*height: 60px;*/
-    padding-right: 4px;
-    /*display: flex;*/
-    /*flex-flow: column wrap;*/
-    display:inline-block;
-    cursor: pointer;
+
+.sidebar-float.panel-document{
+    
 }
-.panel.bottom.right a:hover{
-    background-color: rgba(160,207,133,0.8);
+
+.floating-page img{
+    width: 180px;
+    margin-top: 24px;
 }
+
+.floating-page .content{
+    /*margin: 30px 20px 30px 30px;*/
+    margin: 20px;
+    padding: 20px;
+    display: flex;
+    flex-flow: row wrap;
+    background-color: rgba(255,255,255,0.9);
+    box-shadow: 0px 0px 12px rgba(0,0,0,0.4);
+}
+
+.floating-page .content img{
+    width: 320px;
+    vertical-align: middle;
+}
+
+.floating-page div.left, .floating-page div.right{
+    min-width: 350px;
+    max-width: 450px;
+}
+
+.floating-page div.picturebox{
+    width: 200px;
+    text-align: center;
+}
+
+
 
 .icon+div{
     display: inline-block;
@@ -95,10 +148,7 @@
     /*float: right;*/
 }
 
-.panel, .sidebar{
-    background-color: rgba(255,255,255,0.9);
-    box-shadow: 0px 0px 6px rgba(0,0,0,0.6);
-}
+
 
 /*.leaflet-left{
     display:none;

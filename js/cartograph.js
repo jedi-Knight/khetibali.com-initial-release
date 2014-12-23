@@ -1006,7 +1006,16 @@ function FloatingPage(options) {
                 for (var triad in data.content) {
                     if (data.content[triad]["left"])
                         $("<div></div>").addClass(function() {
-                            return data.content[triad]["special-classes"] && data.content[triad]["special-classes"]["left"] ? "left " + data.content[triad]["special-classes"]["left"] : "left";
+                            var cssClass = "left";
+                            
+                            if(data.content[triad]["special-classes"] && data.content[triad]["special-classes"]["left"])
+                                cssClass += " "+ data.content[triad]["special-classes"]["left"];
+                            
+                            var contentSelection = $(data.content[triad]["left"]);
+                            if(contentSelection.is("img") && contentSelection.length === 1)
+                                cssClass+= " "+ "picturebox";
+                            
+                            return cssClass;
                         }).html(data.content[triad]["left"]).appendTo(content);
 
                     if (data.content[triad]["right"])
