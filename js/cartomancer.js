@@ -44,18 +44,7 @@ $(document).ready(function() {
 
     mapGlobals.mapData = mapData;
 
-    var query = mapData.fetchData({
-        "query": {
-            //url: tabName.toLowerCase().replace(/ /g, "_")+".json"
-            url: "about_khetibali.json"
-        },
-        "query-type": "widget-query",
-        "widget": "navigation",
-        "group": "tabName"
-    });
-    query.done(function(){
-        console.log("hello");
-    });
+  
 
 
 
@@ -65,17 +54,16 @@ $(document).ready(function() {
             attributes: {
             },
             eventHandlers: {
-                click: function(e, tabName, options) {
-                    console.log("calling page");
+                click: function(e, eventOptions) {
                     ((new UI_PanelDocumentSinglePage({
                         contentDeferred: mapData.fetchData({
                             "query": {
-                                //url: tabName.toLowerCase().replace(/ /g, "_")+".json"
-                                url: "about_khetibali.json"
+                                url: eventOptions.tabName.toLowerCase().replace(/ /g, "_")+".json"
+                                //url: "about_khetibali.json"
                             },
                             "query-type": "widget-query",
                             "widget": "navigation",
-                            "group": "tabName"
+                            "group": eventOptions.tabName
                         })
                     })).getDocument()).appendTo("body");
                 }

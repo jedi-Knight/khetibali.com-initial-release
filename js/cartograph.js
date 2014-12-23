@@ -633,7 +633,9 @@ function UI_Button(initObj) {
             return attrObj;
         }());
         for (var event in initObj.eventHandlers) {
-            $(button).on(event, initObj.eventHandlers[event]);
+            $(button).on(event, function(e){
+                initObj.eventHandlers[event].call(this, e, initObj.eventOptions)
+            });
         }
         $(typeof initObj.content === "function" ? initObj.content.call() : initObj.content).appendTo(button);
     }
@@ -923,12 +925,16 @@ function UI_Navigation(options) {
 
     setTimeout(function() {
         for (var tab in options.tabgroup.tabs) {
+            
             (new UI_Button({
                 attributes: options.tabgroup.attributes,
                 eventHandlers: {
-                    click: function(e) {
-                        options.tabgroup.eventHandlers.click.call(this, e, options.tabgroup.tabs[tab], options.eventOptions);
+                    click: function(e, eventOptions) {
+                        options.tabgroup.eventHandlers.click.call(this, e, eventOptions);
                     }
+                },
+                eventOptions:{
+                    tabName: options.tabgroup.tabs[tab]
                 },
                 content: "<span>" + options.tabgroup.tabs[tab] + "</span>"
             })).appendTo(tabgroup);
@@ -989,9 +995,7 @@ function FloatingPage(options) {
 
     var contentDeferred = $.extend(true, {}, options.contentDeferred);
     
-    options.contentDeferred.done(function(){
-        console.log("hello");
-    });
+    
 
     options.contentDeferred = function() {
         var deferred = $.Deferred();
