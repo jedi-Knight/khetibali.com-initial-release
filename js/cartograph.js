@@ -906,7 +906,7 @@ function UI_PictureBox(options) {
 }
 
 function UI_Navigation(options) {
-    
+
     var uiObject = this;
 
     var deferred = $.Deferred();
@@ -930,7 +930,7 @@ function UI_Navigation(options) {
                         options.tabgroup.eventHandlers.click.call(this, e, options.tabgroup.tabs[tab], options.eventOptions);
                     }
                 },
-                content: "<span>"+options.tabgroup.tabs[tab]+"</span>"
+                content: "<span>" + options.tabgroup.tabs[tab] + "</span>"
             })).appendTo(tabgroup);
         }
 
@@ -946,4 +946,109 @@ function UI_Navigation(options) {
     };
 
     return $.extend(this, deferred.promise());
+}
+
+function UI_PanelDocumentSinglePage(options) {
+    var _panelDocument = document.createElement("div");
+
+
+    var _controls = $("<div/>").addClass("panel-document-controls");
+
+    var titleBarNode = document.createElement("div");
+
+    var titleBar = options.titleBar ? $(titleBarNode).append(function() {
+        return $(_controls.append(options.titleBarJson.controls));
+    }).addClass("titleBar panel-document-titleBar") : null;
+    var _page = $("<div/>").addClass("panel-document-page");
+
+
+
+    $(_panelDocument).attr({
+        class: "panel sidebar-float panel-document"
+    }).append(titleBar).append(_page);
+
+
+    setTimeout(function() {
+        _page.append(function() {
+            return new FloatingPage({
+                contentDeferred: options.contentDeferred
+            });
+        });
+    }, 0);
+
+    function _getDocument() {
+        return $(_panelDocument);
+    }
+
+    this.getDocument = function() {
+        return _getDocument();
+    };
+}
+
+function FloatingPage(options) {
+
+    var contentDeferred = $.extend(true, {}, options.contentDeferred);
+    
+    options.contentDeferred.done(function(){
+        console.log("hello");
+    });
+
+    options.contentDeferred = function() {
+        var deferred = $.Deferred();
+
+        contentDeferred.done(function(data) {
+            var content = $("<div></div>").addClass("content");
+            setTimeout(function() {
+                for (var triad in data.content) {
+                    if (data.content[triad]["left"])
+                        $("<div></div>").addClass(function() {
+                            return data.content[triad]["special-classes"] && data.content[triad]["special-classes"]["left"] ? "left " + data.content[triad]["special-classes"]["left"] : "left";
+                        }).html(data.content[triad]["left"]).appendTo(content);
+
+                    if (data.content[triad]["right"])
+                        $("<div></div>").addClass(function() {
+                            return data.content[triad]["special-classes"] && data.content[triad]["special-classes"]["right"] ? "right " + data.content[triad]["special-classes"]["right"] : "right";
+                        }).html(data.content[triad]["right"]).appendTo(content);
+
+                    if (data.content[triad]["block"])
+                        $("<div></div>").addClass(function() {
+                            return data.content[triad]["special-classes"] && data.content[triad]["special-classes"]["block"] ? "block " + data.content[triad]["special-classes"]["block"] : "block";
+                        }).html(data.content[triad]["block"]).appendTo(content);
+                }
+                if(data["special-classes"]) content.addClass(data["special-classes"]);
+            }, 0);
+            deferred.resolve(content);
+        });
+
+        return deferred.promise();
+    }();
+
+    var page = (new AsyncPage(options)).addClass("floating-page");
+    return page;
+}
+
+function AsyncPage(options) {
+    var page = $("<div class='async-page'></div>");
+    var sandGlass = options.sandGlass;
+    page.append(sandGlass);
+    setTimeout(function() {
+        options.contentDeferred.done(function(content) {
+            page.prepend(content);
+            if(sandGlass)sandGlass.remove();
+        });
+    });
+    return page;
+}
+
+function SandGlass(options) {
+    var sandglass = $("<div></div>").addClass("sandglass");
+    sandglass.append(options.sand);
+    return sandglass;
+}
+
+function GIFSand(options) {
+    return $("<img/>").attr({
+        class: options.class,
+        src: options.src
+    }).addClass("sand");
 }

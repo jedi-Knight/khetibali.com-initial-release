@@ -44,46 +44,68 @@ $(document).ready(function() {
 
     mapGlobals.mapData = mapData;
 
+    var query = mapData.fetchData({
+        "query": {
+            //url: tabName.toLowerCase().replace(/ /g, "_")+".json"
+            url: "about_khetibali.json"
+        },
+        "query-type": "widget-query",
+        "widget": "navigation",
+        "group": "tabName"
+    });
+    query.done(function(){
+        console.log("hello");
+    });
+
 
 
     var navigationColumnOptions = {
-            title: "<h1>"+config["navbar"]["title"]+"</h1>",
-            tabgroup: {
-                attributes: {
-                    
-                },
-                eventHandlers: {
-                    click: function(e, tabName, options){
-                        
-                    }
-                },
-                tabs: config["navbar"]["tabs"]
+        title: "<h1>" + config["navbar"]["title"] + "</h1>",
+        tabgroup: {
+            attributes: {
             },
-            //footer: "<a class='ui-button-download-data'><div>Download as CSV</div></a>",
-            eventOptions: {
-                contentDef: mainNavContentDef
+            eventHandlers: {
+                click: function(e, tabName, options) {
+                    console.log("calling page");
+                    ((new UI_PanelDocumentSinglePage({
+                        contentDeferred: mapData.fetchData({
+                            "query": {
+                                //url: tabName.toLowerCase().replace(/ /g, "_")+".json"
+                                url: "about_khetibali.json"
+                            },
+                            "query-type": "widget-query",
+                            "widget": "navigation",
+                            "group": "tabName"
+                        })
+                    })).getDocument()).appendTo("body");
+                }
             },
-            controls: function(){
-                return $("<div class='controls'></div>").append(function(){
-                    return new UI_Button({
-                       attributes: {
-                           class: "ui-sidebar-toggle"
-                       },
-                       eventHandlers: {
-                           
-                       },
-                       content: "<span>X</span>"
-                    });
+            tabs: config["navbar"]["tabs"]
+        },
+        //footer: "<a class='ui-button-download-data'><div>Download as CSV</div></a>",
+        eventOptions: {
+            contentDef: mainNavContentDef
+        },
+        controls: function() {
+            return $("<div class='controls'></div>").append(function() {
+                return new UI_Button({
+                    attributes: {
+                        class: "ui-sidebar-toggle"
+                    },
+                    eventHandlers: {
+                    },
+                    content: "<span>X</span>"
                 });
-            }(),
-            class: "sidebar left"
-        };
+            });
+        }(),
+        class: "sidebar left"
+    };
 
-        (new UI_Navigation(navigationColumnOptions)).done(function(uiObject){
-            uiObject.getUI().appendTo("body");
-        });
-        /*$("<div class='col-plug'>").appendTo($("#extension-box").find(".ui-button-column-toggle"));*/
-    
+    (new UI_Navigation(navigationColumnOptions)).done(function(uiObject) {
+        uiObject.getUI().appendTo("body");
+    });
+    /*$("<div class='col-plug'>").appendTo($("#extension-box").find(".ui-button-column-toggle"));*/
+
 
 });
 $.fn.attrByFunction = function(fn) {

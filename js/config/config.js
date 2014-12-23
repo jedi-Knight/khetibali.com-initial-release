@@ -1,6 +1,6 @@
 config = {
     api: {
-        url: "data/farm.geojson",
+        url: "data/",
         type: "GET"
     },
     otherAPIs: {
