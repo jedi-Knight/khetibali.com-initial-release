@@ -1,0 +1,23 @@
+{
+ "type" : "FeatureCollection",
+ "crs" : {
+  "type" : "name",
+  "properties" : {
+   "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+  }
+ },
+ 
+ "features" : [{
+   "type" : "Feature",
+   "properties" : {
+    "id" : 1,
+    "name" : "Bajrabarahi",
+    "location-picture": "data/pictures/locations/bajrabarahi.png"
+   },
+   "geometry" : {
+    "type" : "Point",
+    "coordinates" : [85.122607116608293, 27.649226142444693]
+   }
+  }
+ ]
+}

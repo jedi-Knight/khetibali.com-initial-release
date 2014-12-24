@@ -1065,3 +1065,19 @@ function GIFSand(options) {
         src: options.src
     }).addClass("sand");
 }
+
+function UI_ReactiveMarker(options){
+    var icon = $("<div></div>");
+    
+    icon.append($("<img/>").attr("src",options["img-src"]));
+    var label = $(options["label"]).length? options["label"]: $("<span></span>").text(options["label"]);
+    var target = icon.add(label);
+    label.hide();
+    target.on("mouseenter", function(e){
+        label.show();
+    });
+    target.on("mouseleave", function(e){
+        label.hide();
+    });
+    return target;
+}

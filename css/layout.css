@@ -173,6 +173,49 @@ a.panel-control-button{
     cursor: pointer;
 }
 
+.icon-location-marker div{
+    /*position: relative;*/
+    width: 120px !important;
+    height: auto !important;
+    text-align: center;
+    overflow: hidden;
+}
+
+.icon-location-marker a{
+    position: absolute;
+    background-color: rgba(160,207,103,0.8);
+    bottom:0px;
+    color: #ffffff;
+    font-family: "Verdana";
+    font-size: 10pt;
+    width: 124px;
+    left:0px;
+}
+
+.icon-location-marker{
+    width: auto !important;
+    height: auto !important;
+    background-color: rgba(160,207,103,0.8);
+    padding: 3px;
+    top: -110px;
+    left: -60px;
+    text-align: center;
+}
+.icon-location-marker div:after{
+    content: "";
+    position: absolute;
+    bottom: -15px;
+    border-width: 15px 15px 0;
+    border-style: solid;
+    /*width: 50px;*/
+    left: 45px;
+    border-color: rgba(160,207,103,0.8) transparent;
+}
+
+.icon-location-marker img{
+    width: 120px;
+}
+
 /*.leaflet-left{
     display:none;
 }*/

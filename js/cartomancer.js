@@ -57,7 +57,7 @@ $(document).ready(function() {
                 click: function(e, eventOptions) {
                     //if (floatingPageWidget) {
                     var floatingPageWidget = $("body").find(".panel-document");
-                    if(floatingPageWidget.length){
+                    if (floatingPageWidget.length) {
                         var floatingPageWidgetContents = (new UI_PanelDocumentSinglePage({
                             contentDeferred: mapData.fetchData({
                                 "query": {
@@ -71,17 +71,17 @@ $(document).ready(function() {
                             titleBar: {
                                 controls: function() {
                                     return new UI_Button({
-                                        attributes:{
+                                        attributes: {
                                             class: "panel-control-button"
                                         },
-                                        eventHandlers:{
-                                            click: function(e, eventOptions){
+                                        eventHandlers: {
+                                            click: function(e, eventOptions) {
 //                                                $(this).closest(".panel-document").remove();
 //                                                eventOptions.target=null;
-                                                  $(eventOptions.target).remove();
+                                                $(eventOptions.target).remove();
                                             }
                                         },
-                                        eventOptions:{
+                                        eventOptions: {
                                             target: floatingPageWidget
                                         },
                                         content: "<div class='panel-control-icon'>X</div>"
@@ -105,17 +105,17 @@ $(document).ready(function() {
                             titleBar: {
                                 controls: function() {
                                     return new UI_Button({
-                                        attributes:{
+                                        attributes: {
                                             class: "panel-control-button"
                                         },
-                                        eventHandlers:{
-                                            click: function(e, eventOptions){
+                                        eventHandlers: {
+                                            click: function(e, eventOptions) {
                                                 $(this).closest(".panel-document").children().remove();
 //                                                eventOptions.target=null;
-                                                  //$(eventOptions.target).remove();
+                                                //$(eventOptions.target).remove();
                                             }
                                         },
-                                        eventOptions:{
+                                        eventOptions: {
                                             target: floatingPageWidget
                                         },
                                         content: "<div class='panel-control-icon'>X</div>"
@@ -132,7 +132,7 @@ $(document).ready(function() {
         },
         //footer: "<a class='ui-button-download-data'><div>Download as CSV</div></a>",
         eventOptions: {
-            contentDef: mainNavContentDef
+            //contentDef: mainNavContentDef
         },
         controls: function() {
             return $("<div class='controls'></div>").append(function() {
@@ -154,6 +154,56 @@ $(document).ready(function() {
     });
     /*$("<div class='col-plug'>").appendTo($("#extension-box").find(".ui-button-column-toggle"));*/
 
+    var locationsLayerGroup;
+
+    function placeLocationMarkers(data, params) {
+        locationsLayerGroup = L.geoJson(data, {
+            onEachFeature: function(feature, layer) {
+            },
+            pointToLayer: function(feature, latlng) {
+                var marker = L.marker(latlng, {
+                    icon: L.divIcon({
+                        className: "icon-location-marker"
+                    })
+                });
+                return marker;
+            }
+        }).addTo(map);
+
+        $.map(locationsLayerGroup._layers, function(layer, index) {
+            setTimeout(function() {
+                $(layer._icon).append(new UI_ReactiveMarker({
+                    "img-src": layer.feature.properties.getAttributes()["location-picture"],
+                    "label": new UI_Button({
+                        attributes: {
+                        },
+                        eventHandlers: {
+                            click: {
+                            }
+                        },
+                        content: "<span>Got to <b>" + layer.feature.properties.getAttributes().name + "</b></span>"
+                    })
+                }));
+            });
+        });
+
+    }
+
+    var modelQueryLocations = mapData.fetchData({
+        query: {
+            geometries: {
+                type: "points",
+                group: "locations.geojson"
+            },
+            url: "locations.geojson"
+        },
+        returnDataMeta: {
+        }
+    });
+
+    modelQueryLocations.done(function(data, params) {
+        placeLocationMarkers(data, params);
+    });
 
 });
 $.fn.attrByFunction = function(fn) {

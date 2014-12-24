@@ -75,7 +75,7 @@ config = {
     },
     "navbar": {
         title: "Khetibali",
-        tabs: ["About Khetibali", "Bajrabarahi", "People", "Process"]
+        tabs: ["About Khetibali"]
     }
 };
 
