@@ -5,7 +5,12 @@ $(document).ready(function() {
     });
 
 
-    var cartograph = new Map();
+    var cartograph = new Map({
+        "mapOptions": {
+            "maxZoom": config["start-screen-zoom-limits"]["max"],
+            "minZoom": config["start-screen-zoom-limits"]["min"]
+        }
+    });
     $("#map").find("a.leaflet-control-zoom-out").text("–");
     var map = cartograph.getMap();
 
@@ -193,6 +198,8 @@ $(document).ready(function() {
                                 config["main-headings"].map(function(item, index) {
                                     config["navbar"]["tabs"].push(item);
                                 });
+                                
+                                map.options.maxZoom = 19;
 
                                 map.setView(layer._latlng, config["start-screen-zoom-limits"]["max"] + 1, {
                                     animate: true
@@ -230,10 +237,10 @@ $(document).ready(function() {
     map.on("zoomend", function(e) {
         var context = this;
         setTimeout(function() {
-            if (context.getZoom() < locationsLayerGroup.visibility["max-zoom"] && context.getZoom() > locationsLayerGroup.visibility["min-zoom"]) {
-                console.log(config["navbar"]["tabs"].length);
+            if (context.getZoom() <= locationsLayerGroup.visibility["max-zoom"] && context.getZoom() >= locationsLayerGroup.visibility["min-zoom"]) {
+//                console.log(config["navbar"]["tabs"].length);
                 if (Boolean(config["navbar"]["tabs"].length - 1)) {
-                    console.log("ok");
+//                    console.log("ok");
                     config["main-headings"].map(function(item, index) {
 
                         config["navbar"]["tabs"].pop();
@@ -249,6 +256,7 @@ $(document).ready(function() {
 
                 }
                 $(".icon-location-marker").show();
+                map.options.maxZoom = config["start-screen-zoom-limits"]["max"];
             } else {
 
                 $(".icon-location-marker").hide();

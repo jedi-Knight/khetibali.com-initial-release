@@ -81,7 +81,11 @@ config = {
     "start-screen-zoom-limits":{
         "max":12,
         "min": 7
-    }
+    },
+    "basemap-servers": [
+        "http://{s}.tile.openstreetmap.org",
+        "http://104.131.69.181/osm"
+    ]
 };
 
 mainNavContentDef = {
