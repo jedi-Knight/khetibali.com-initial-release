@@ -132,8 +132,8 @@ function Data() {
         ;
         return featureIndexForAttribute;
     };
-    
-    this.getWidgetContent = function(){
+
+    this.getWidgetContent = function() {
         return widgetContent;
     };
     /**:temporary hack**/
@@ -143,7 +143,7 @@ function Data() {
     function queryModel(params) {
         console.log("querying local db");
         if (params["query-type"] === "widget-query") {
-            if(widgetContent.widget[params["widget"]] && widgetContent.widget[params["widget"]][params["group"]])
+            if (widgetContent.widget[params["widget"]] && widgetContent.widget[params["widget"]][params["group"]])
                 return widgetContent.widget[params["widget"]][params["group"]];
             else
                 return false;
@@ -174,7 +174,7 @@ function Data() {
             if (!widgetContent.widget[params["widget"]])
                 widgetContent.widget[params["widget"]] = {};
             widgetContent.widget[params["widget"]][params["group"]] = data;
-            
+
             writeQueryDeferred.resolve();
 
         } else {
@@ -304,6 +304,193 @@ function Data() {
                     geometries.points[params.query.geometries.group] = geoJSONDB_geometries;
                     $.extend(attributes.points, geoJSONDB_attributes);
                     writeQueryDeferred.resolve();
+                }, 0);
+            } else if (params.returnDataMeta.type === "food_secutiry_osm_geojson") {
+                //console.log(data);
+                setTimeout(function() {
+                    data.features.map(function(feature, index) {
+//                   console.log(feature); 
+                        try {
+                            var cropList = feature.properties.crop.split(";");
+                            var cropData = {
+                                "0": [
+                                ],
+                                "3": [
+                                ],
+                                "6": [
+                                ],
+                                "9": [
+                                ]
+                            };
+
+                            var cropMonthRange;
+                            //console.log(cropList);
+                            for (var c in cropList) {
+                                //console.log(c);
+                                //console.log(index);
+                                //console.log("crop"+c+":time");
+                                cropMonthRange = (feature.properties["crop" + c + ":time"] + "").split(" to ");
+                                //console.log(cropMonthRange);
+
+
+                                var seasonIndexRange = [];
+                                var startMonthIndex = config["month-list"].indexOf(cropMonthRange[0]);
+                                var endMonthIndex = config["month-list"].indexOf(cropMonthRange[1]);
+                                if ((startMonthIndex + 1) && (endMonthIndex + 1)) {
+                                    $.map(cropData, function(data, seasonID) {
+                                        switch (seasonID) {
+                                            case "0":
+                                                {
+                                                    if (startMonthIndex >= 0 && startMonthIndex < 3) {
+                                                        cropData[seasonID].push({
+                                                            "label": feature.properties["crop" + c + ":name"],
+                                                            "value": Number((feature.properties["crop" + c + ":percentage"] + "").replace(/%/g, "")),
+                                                            "caption": feature.properties["crop" + c + ":name"]
+                                                                    //,"color": config["charts"]["colors"][feature.properties["crop" + c + ":name"]]
+                                                        });
+                                                    } else if (endMonthIndex >= 0 && endMonthIndex < 3) {
+                                                        cropData[seasonID].push({
+                                                            "label": feature.properties["crop" + c + ":name"],
+                                                            "value": Number((feature.properties["crop" + c + ":percentage"] + "").replace(/%/g, "")),
+                                                            "caption": feature.properties["crop" + c + ":name"]
+                                                                    //,"color": config["charts"]["colors"][feature.properties["crop" + c + ":name"]]
+                                                        });
+                                                    }
+                                                    break;
+                                                }
+                                            case "3":
+                                                {
+                                                    if (startMonthIndex >= 3 && startMonthIndex < 6) {
+                                                        cropData[seasonID].push({
+                                                            "label": feature.properties["crop" + c + ":name"],
+                                                            "value": Number((feature.properties["crop" + c + ":percentage"] + "").replace(/%/g, "")),
+                                                            "caption": feature.properties["crop" + c + ":name"]
+                                                                    //,"color": config["charts"]["colors"][feature.properties["crop" + c + ":name"]]
+                                                        });
+                                                    } else if (endMonthIndex >= 3 && endMonthIndex < 6) {
+                                                        cropData[seasonID].push({
+                                                            "label": feature.properties["crop" + c + ":name"],
+                                                            "value": Number((feature.properties["crop" + c + ":percentage"] + "").replace(/%/g, "")),
+                                                            "caption": feature.properties["crop" + c + ":name"]
+                                                                    //,"color": config["charts"]["colors"][feature.properties["crop" + c + ":name"]]
+                                                        });
+                                                    }
+                                                    break;
+                                                }
+                                            case "6":
+                                                {
+                                                    if (startMonthIndex >= 6 && startMonthIndex < 9) {
+                                                        cropData[seasonID].push({
+                                                            "label": feature.properties["crop" + c + ":name"],
+                                                            "value": Number((feature.properties["crop" + c + ":percentage"] + "").replace(/%/g, "")),
+                                                            "caption": feature.properties["crop" + c + ":name"]
+                                                                    //,"color": config["charts"]["colors"][feature.properties["crop" + c + ":name"]]
+                                                        });
+                                                    } else if (endMonthIndex >= 6 && endMonthIndex < 9) {
+                                                        cropData[seasonID].push({
+                                                            "label": feature.properties["crop" + c + ":name"],
+                                                            "value": Number((feature.properties["crop" + c + ":percentage"] + "").replace(/%/g, "")),
+                                                            "caption": feature.properties["crop" + c + ":name"]
+                                                                    //,"color": config["charts"]["colors"][feature.properties["crop" + c + ":name"]]
+                                                        });
+                                                    }
+                                                    break;
+                                                }
+                                            case "9":
+                                                {
+                                                    if (startMonthIndex >= 9 && startMonthIndex < 12) {
+                                                        cropData[seasonID].push({
+                                                            "label": feature.properties["crop" + c + ":name"],
+                                                            "value": Number((feature.properties["crop" + c + ":percentage"] + "").replace(/%/g, "")),
+                                                            "caption": feature.properties["crop" + c + ":name"]
+                                                                    //,"color": config["charts"]["colors"][feature.properties["crop" + c + ":name"]]
+                                                        });
+                                                    } else if (endMonthIndex >= 9 && endMonthIndex < 12) {
+                                                        cropData[seasonID].push({
+                                                            "label": feature.properties["crop" + c + ":name"],
+                                                            "value": Number((feature.properties["crop" + c + ":percentage"] + "").replace(/%/g, "")),
+                                                            "caption": feature.properties["crop" + c + ":name"]
+                                                                    //,"color": config["charts"]["colors"][feature.properties["crop" + c + ":name"]]
+                                                        });
+                                                    }
+                                                    break;
+                                                }
+
+                                        }
+                                    });
+                                }
+                            }
+                            //console.log(cropData);
+
+                            feature.properties.cropData = cropData;
+
+                        } catch (e) {
+                            //console.log("crop list not found for:");
+                            //console.log(feature);
+                            //console.log("\n");
+                        }
+                    });
+                    console.log(data);
+
+
+
+                    if (params.query.geometries) {
+                        if (geometries[params.query.geometries.type])
+                            try {
+                                Object.keys(params.query.geometries.group);
+                                params.query.geometries.group = data.features[0].properties[params.query.geometries.group.column];
+                                geometries[params.query.geometries.type][params.query.geometries.group] = data;
+                            } catch (e) {
+                                geometries[params.query.geometries.type][params.query.geometries.group] = data;
+                            }
+                        else
+                            throw new Error();
+
+                        setTimeout(function() {
+                            var c = Object.keys(attributes[params.query.geometries.type]).length;
+                            var geojsonDB_attributes = {};
+                            geometries[params.query.geometries.type][params.query.geometries.group]._cartomancer_countstart = c;
+
+                            for (var feature in geometries[params.query.geometries.type][params.query.geometries.group].features) {
+                                geojsonDB_attributes[c] = geometries[params.query.geometries.type][params.query.geometries.group].features[feature].properties;
+
+                                geojsonDB_attributes[c]._metaX = {
+                                    "feature-group": params.query.geometries.group
+                                };
+
+                                if (geometries[params.query.geometries.type][params.query.geometries.group]["features"][feature]["properties"]["@id"]) {
+                                    geometries[params.query.geometries.type][params.query.geometries.group].features[feature].properties.id
+                                            = geometries[params.query.geometries.type][params.query.geometries.group]["features"][feature]["properties"]["@id"];
+                                    delete geometries[params.query.geometries.type][params.query.geometries.group]["features"][feature]["properties"]["@id"];
+                                }
+
+                                geometries[params.query.geometries.type][params.query.geometries.group].features[feature].properties = {
+                                    feature_id: geometries[params.query.geometries.type][params.query.geometries.group].features[feature].properties.id,
+                                    _cartomancer_id: c,
+                                    getAttributes: function(_cartomancer_id) {
+                                        //return attributes[params.query.geometries.type][_cartomancer_id];
+                                        return attributes[params.query.geometries.type][this._cartomancer_id];
+                                    }
+                                };
+                                c++;
+                            }
+
+                            $.extend(attributes[params.query.geometries.type], geojsonDB_attributes);
+
+
+                            writeQueryDeferred.resolve();
+                        }, 0);
+
+
+                    } else if (params.query.attributes) {
+                        switch (params.query.attributes.geometry) {
+                        }
+                    }
+
+
+
+
+
                 }, 0);
             } else {
 

@@ -19,7 +19,7 @@ function Map(options) {
 
 
     function osmTiles() {
-        return L.tileLayer(config["basemap-servers"][0]+'/{z}/{x}/{y}.png', {
+        return L.tileLayer(config["basemap-servers"][0] + '/{z}/{x}/{y}.png', {
             //attribution: 'Basemap data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors | Powered by <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs <img class="klllogo" src="../images/klllogo.gif"/></a>'
             //,maxZoom: 19,
             //minZoom: 1
@@ -633,7 +633,7 @@ function UI_Button(initObj) {
             return attrObj;
         }());
         for (var event in initObj.eventHandlers) {
-            $(button).on(event, function(e){
+            $(button).on(event, function(e) {
                 initObj.eventHandlers[event].call(this, e, initObj.eventOptions)
             });
         }
@@ -925,7 +925,7 @@ function UI_Navigation(options) {
 
     setTimeout(function() {
         for (var tab in options.tabgroup.tabs) {
-            
+
             (new UI_Button({
                 attributes: options.tabgroup.attributes,
                 eventHandlers: {
@@ -933,7 +933,7 @@ function UI_Navigation(options) {
                         options.tabgroup.eventHandlers.click.call(this, e, eventOptions);
                     }
                 },
-                eventOptions:{
+                eventOptions: {
                     tabName: options.tabgroup.tabs[tab]
                 },
                 content: "<span>" + options.tabgroup.tabs[tab] + "</span>"
@@ -959,19 +959,43 @@ function UI_PanelDocumentSinglePage(options) {
 
 
     var _controls = $("<div/>").addClass("panel-document-controls");
+    var _title = $("<div/>").addClass("panel-document-title");
 
-    var titleBarNode = document.createElement("div");
+    //var titleBarNode = document.createElement("div");
 
-    var titleBar = options.titleBar ? $(titleBarNode).append(function() {
-        return $(_controls.append(options.titleBar.controls));
-    }).addClass("titleBar panel-document-titleBar") : null;
+    var titleBarNode = $("<div></div>");
+
+    var titleBar = null;
+
+    if (options.titleBar) {
+
+        if (options.titleBar.controls) {
+            $(titleBarNode).append(function() {
+                return $(_controls.append(options.titleBar.controls));
+            });
+        }
+        if (options.titleBar.title) {
+            $(titleBarNode).append(function() {
+                return $(_title.append(options.titleBar.title));
+            });
+
+
+        }
+
+        $(titleBarNode).addClass("titleBar panel-document-titleBar");
+
+        titleBar = titleBarNode;
+
+
+
+    }
     var _page = $("<div/>").addClass("panel-document-page");
 
 
 
     $(_panelDocument).attr({
-        class: "panel sidebar-float panel-document"
-    }).append(titleBar).append(_page);
+        class: "panel panel-document"
+    }).addClass(options.class).append(titleBar).append(_page);
 
 
     setTimeout(function() {
@@ -994,8 +1018,8 @@ function UI_PanelDocumentSinglePage(options) {
 function FloatingPage(options) {
 
     var contentDeferred = $.extend(true, {}, options.contentDeferred);
-    
-    
+
+
 
     options.contentDeferred = function() {
         var deferred = $.Deferred();
@@ -1007,14 +1031,14 @@ function FloatingPage(options) {
                     if (data.content[triad]["left"])
                         $("<div></div>").addClass(function() {
                             var cssClass = "left";
-                            
-                            if(data.content[triad]["special-classes"] && data.content[triad]["special-classes"]["left"])
-                                cssClass += " "+ data.content[triad]["special-classes"]["left"];
-                            
+
+                            if (data.content[triad]["special-classes"] && data.content[triad]["special-classes"]["left"])
+                                cssClass += " " + data.content[triad]["special-classes"]["left"];
+
                             var contentSelection = $(data.content[triad]["left"]);
-                            if(contentSelection.is("img") && contentSelection.length === 1)
-                                cssClass+= " "+ "picturebox";
-                            
+                            if (contentSelection.is("img") && contentSelection.length === 1)
+                                cssClass += " " + "picturebox";
+
                             return cssClass;
                         }).html(data.content[triad]["left"]).appendTo(content);
 
@@ -1028,7 +1052,8 @@ function FloatingPage(options) {
                             return data.content[triad]["special-classes"] && data.content[triad]["special-classes"]["block"] ? "block " + data.content[triad]["special-classes"]["block"] : "block";
                         }).html(data.content[triad]["block"]).appendTo(content);
                 }
-                if(data["special-classes"]) content.addClass(data["special-classes"]);
+                if (data["special-classes"])
+                    content.addClass(data["special-classes"]);
             }, 0);
             deferred.resolve(content);
         });
@@ -1047,7 +1072,8 @@ function AsyncPage(options) {
     setTimeout(function() {
         options.contentDeferred.done(function(content) {
             page.prepend(content);
-            if(sandGlass)sandGlass.remove();
+            if (sandGlass)
+                sandGlass.remove();
         });
     });
     return page;
@@ -1066,18 +1092,22 @@ function GIFSand(options) {
     }).addClass("sand");
 }
 
-function UI_ReactiveMarker(options){
+function UI_ReactiveMarker(options) {
     var icon = $("<div></div>");
-    
-    icon.append($("<img/>").attr("src",options["img-src"]));
-    var label = $(options["label"]).length? options["label"]: $("<span></span>").text(options["label"]);
+
+    icon.append($("<img/>").attr("src", options["img-src"]));
+    var label = $(options["label"]).length ? options["label"] : $("<span></span>").text(options["label"]);
     var target = icon.add(label);
     label.hide();
-    target.on("mouseenter", function(e){
+    target.on("mouseenter", function(e) {
         label.show();
     });
-    target.on("mouseleave", function(e){
+    target.on("mouseleave", function(e) {
         label.hide();
     });
     return target;
+}
+
+function UI_SummarySmallWidget(options) {
+    return (new UI_PanelDocumentSinglePage(options)).getDocument().addClass("widget-small");
 }

@@ -1,7 +1,8 @@
 config = {
     api: {
         url: "data/",
-        type: "GET"
+        type: "GET",
+        "location-summary-base-url": "location_summary/"
     },
     otherAPIs: {
         overpass: {
@@ -85,6 +86,20 @@ config = {
     "basemap-servers": [
         "http://{s}.tile.openstreetmap.org",
         "http://104.131.69.181/osm"
+    ],
+    "month-list":[
+        "Baishak",
+        "Jestha",
+        "Ashar",
+        "Shrawan",
+        "Bhadra",
+        "Ashwin",
+        "Kartik",
+        "Mangshir",
+        "Paush",
+        "Magh",
+        "Falgun",
+        "Chaitra"
     ]
 };
 

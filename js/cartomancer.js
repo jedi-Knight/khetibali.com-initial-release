@@ -61,7 +61,7 @@ $(document).ready(function() {
                 eventHandlers: {
                     click: function(e, eventOptions) {
                         //if (floatingPageWidget) {
-                        var floatingPageWidget = $("body").find(".panel-document");
+                        var floatingPageWidget = $("body").find(".sidebar-float.panel-document");
                         if (floatingPageWidget.length) {
                             var floatingPageWidgetContents = (new UI_PanelDocumentSinglePage({
                                 contentDeferred: mapData.fetchData({
@@ -126,7 +126,8 @@ $(document).ready(function() {
                                             content: "<div class='panel-control-icon'>X</div>"
                                         });
                                     }
-                                }
+                                },
+                                class: "sidebar-float"
                             })).getDocument();
 
                             floatingPageWidget.appendTo("body");
@@ -161,6 +162,14 @@ $(document).ready(function() {
     /*$("<div class='col-plug'>").appendTo($("#extension-box").find(".ui-button-column-toggle"));*/
 
     var locationsLayerGroup;
+
+    function createLocationSummarySmallWidget(options) {
+        (new UI_SummarySmallWidget(options)).appendTo(".leaflet-right.leaflet-bottom");
+    }
+
+    function removeLocationSummarySmallWidget(options) {
+        $(".leaflet-right.leaflet-bottom .widget-small").remove();
+    }
 
     function placeLocationMarkers(data, params) {
         locationsLayerGroup = L.geoJson(data, {
@@ -198,7 +207,7 @@ $(document).ready(function() {
                                 config["main-headings"].map(function(item, index) {
                                     config["navbar"]["tabs"].push(item);
                                 });
-                                
+
                                 map.options.maxZoom = 19;
 
                                 map.setView(layer._latlng, config["start-screen-zoom-limits"]["max"] + 1, {
@@ -207,6 +216,34 @@ $(document).ready(function() {
 
                                 (new UI_Navigation(new navigationColumnOptions(config))).done(function(uiObject) {
                                     $(".ui-navigation.sidebar").html(uiObject.getUI().children());
+                                });
+
+                                createLocationSummarySmallWidget({
+                                    contentDeferred: mapData.fetchData({
+                                        "query": {
+                                            url: config["api"]["location-summary-base-url"] + layer.feature.properties.getAttributes().name.toLowerCase().replace(/ /g, "_") + ".json"
+                                                    //url: "about_khetibali.json"
+                                        },
+                                        "query-type": "widget-query",
+                                        "widget": "location-summary",
+                                        "group": layer.feature.properties.getAttributes().name,
+                                        titleBar: {
+                                            title: "Major crops in " + layer.feature.properties.getAttributes().name
+                                        }
+                                    })
+                                });
+
+                                var modelQueryLocations = mapData.fetchData({
+                                    query: {
+                                        geometries: {
+                                            type: "polygons",
+                                            group: layer.feature.properties.getAttributes().name
+                                        },
+                                        url: "farmdata/"+layer.feature.properties.getAttributes().name.toLowerCase().replace(/ /g, "_") +".geojson"
+                                    },
+                                    returnDataMeta: {
+                                        "type": "food_secutiry_osm_geojson"
+                                    }
                                 });
                             }
                         },
@@ -249,8 +286,12 @@ $(document).ready(function() {
                     config["navbar"]["tabs"].pop();
 
                     (new UI_Navigation(new navigationColumnOptions(config))).done(function(uiObject) {
-                        $(".ui-navigation.sidebar").html(uiObject.getUI().children());
+                        $(".ui-navigation.sidebar").remove();
+                        //$(".ui-navigation.sidebar").html(uiObject.getUI().children());
+                        uiObject.getUI().appendTo("body");
                     });
+
+                    removeLocationSummarySmallWidget();
 
 
 

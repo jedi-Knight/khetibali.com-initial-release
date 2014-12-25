@@ -267,6 +267,58 @@ a.panel-control-button{
     display:none;
 }*/
 
+.leaflet-bottom.leaflet-right .picturebox img{
+    width: initial;
+    height: 80px;
+    margin-top: 4px;
+}
+.leaflet-bottom.leaflet-right .picturebox{
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+}
+
+.leaflet-bottom.leaflet-right .floating-page div.left, .leaflet-bottom.leaflet-right .floating-page div.right{
+    min-width: initial;
+    max-width: initial;
+}
+.leaflet-bottom.leaflet-right .floating-page div.block{
+    margin-left: -86px;
+    margin-top: 80px;
+    width: 80px;
+    border: #eeeeee thin solid;
+    border-top: none;
+}
+
+.leaflet-bottom.leaflet-right .floating-page .content div.left{
+    display: inline-block;
+    margin-left: 4px;
+    margin-right: 4px;
+    border: #eeeeee thin solid;
+    border-bottom: none;
+}
+
+/*.leaflet-bottom.leaflet-right .floating-page .content div.left:first-child{
+    margin-left: 4px;
+    margin-right: 2px;
+}
+.leaflet-bottom.leaflet-right .floating-page .content div.left:last-child{
+    margin-left: 2px;
+    margin-right: 4px;
+}*/
+
+
+
+.leaflet-bottom.leaflet-right .floating-page .content{
+    margin: 0px;
+    padding: 0px;
+    flex-flow: initial;
+}
+
+.widget-small{
+    display: inline-block;
+}
+
 #mapBox{
     width:100%;
     height: 100%;
