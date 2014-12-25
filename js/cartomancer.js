@@ -47,109 +47,110 @@ $(document).ready(function() {
 
 
     //var floatingPageWidget = null;
-
-    var navigationColumnOptions = {
-        title: "<h1>" + config["navbar"]["title"] + "</h1>",
-        tabgroup: {
-            attributes: {
-            },
-            eventHandlers: {
-                click: function(e, eventOptions) {
-                    //if (floatingPageWidget) {
-                    var floatingPageWidget = $("body").find(".panel-document");
-                    if (floatingPageWidget.length) {
-                        var floatingPageWidgetContents = (new UI_PanelDocumentSinglePage({
-                            contentDeferred: mapData.fetchData({
-                                "query": {
-                                    url: eventOptions.tabName.toLowerCase().replace(/ /g, "_") + ".json"
-                                            //url: "about_khetibali.json"
-                                },
-                                "query-type": "widget-query",
-                                "widget": "navigation",
-                                "group": eventOptions.tabName
-                            }),
-                            titleBar: {
-                                controls: function() {
-                                    return new UI_Button({
-                                        attributes: {
-                                            class: "panel-control-button"
-                                        },
-                                        eventHandlers: {
-                                            click: function(e, eventOptions) {
+    function navigationColumnOptions(config) {
+        return {
+            title: "<h1>" + config["navbar"]["title"] + "</h1>",
+            tabgroup: {
+                attributes: {
+                },
+                eventHandlers: {
+                    click: function(e, eventOptions) {
+                        //if (floatingPageWidget) {
+                        var floatingPageWidget = $("body").find(".panel-document");
+                        if (floatingPageWidget.length) {
+                            var floatingPageWidgetContents = (new UI_PanelDocumentSinglePage({
+                                contentDeferred: mapData.fetchData({
+                                    "query": {
+                                        url: eventOptions.tabName.toLowerCase().replace(/ /g, "_") + ".json"
+                                                //url: "about_khetibali.json"
+                                    },
+                                    "query-type": "widget-query",
+                                    "widget": "navigation",
+                                    "group": eventOptions.tabName
+                                }),
+                                titleBar: {
+                                    controls: function() {
+                                        return new UI_Button({
+                                            attributes: {
+                                                class: "panel-control-button"
+                                            },
+                                            eventHandlers: {
+                                                click: function(e, eventOptions) {
 //                                                $(this).closest(".panel-document").remove();
 //                                                eventOptions.target=null;
-                                                $(eventOptions.target).remove();
-                                            }
-                                        },
-                                        eventOptions: {
-                                            target: floatingPageWidget
-                                        },
-                                        content: "<div class='panel-control-icon'>X</div>"
-                                    });
+                                                    $(eventOptions.target).remove();
+                                                }
+                                            },
+                                            eventOptions: {
+                                                target: floatingPageWidget
+                                            },
+                                            content: "<div class='panel-control-icon'>X</div>"
+                                        });
+                                    }
                                 }
-                            }
-                        })).getDocument().children();
-                        floatingPageWidget.children().remove();
-                        floatingPageWidget.append($(floatingPageWidgetContents));
-                    } else {
-                        floatingPageWidget = (new UI_PanelDocumentSinglePage({
-                            contentDeferred: mapData.fetchData({
-                                "query": {
-                                    url: eventOptions.tabName.toLowerCase().replace(/ /g, "_") + ".json"
-                                            //url: "about_khetibali.json"
-                                },
-                                "query-type": "widget-query",
-                                "widget": "navigation",
-                                "group": eventOptions.tabName
-                            }),
-                            titleBar: {
-                                controls: function() {
-                                    return new UI_Button({
-                                        attributes: {
-                                            class: "panel-control-button"
-                                        },
-                                        eventHandlers: {
-                                            click: function(e, eventOptions) {
-                                                $(this).closest(".panel-document").children().remove();
+                            })).getDocument().children();
+                            floatingPageWidget.children().remove();
+                            floatingPageWidget.append($(floatingPageWidgetContents));
+                        } else {
+                            floatingPageWidget = (new UI_PanelDocumentSinglePage({
+                                contentDeferred: mapData.fetchData({
+                                    "query": {
+                                        url: eventOptions.tabName.toLowerCase().replace(/ /g, "_") + ".json"
+                                                //url: "about_khetibali.json"
+                                    },
+                                    "query-type": "widget-query",
+                                    "widget": "navigation",
+                                    "group": eventOptions.tabName
+                                }),
+                                titleBar: {
+                                    controls: function() {
+                                        return new UI_Button({
+                                            attributes: {
+                                                class: "panel-control-button"
+                                            },
+                                            eventHandlers: {
+                                                click: function(e, eventOptions) {
+                                                    $(this).closest(".panel-document").children().remove();
 //                                                eventOptions.target=null;
-                                                //$(eventOptions.target).remove();
-                                            }
-                                        },
-                                        eventOptions: {
-                                            target: floatingPageWidget
-                                        },
-                                        content: "<div class='panel-control-icon'>X</div>"
-                                    });
+                                                    //$(eventOptions.target).remove();
+                                                }
+                                            },
+                                            eventOptions: {
+                                                target: floatingPageWidget
+                                            },
+                                            content: "<div class='panel-control-icon'>X</div>"
+                                        });
+                                    }
                                 }
-                            }
-                        })).getDocument();
+                            })).getDocument();
 
-                        floatingPageWidget.appendTo("body");
+                            floatingPageWidget.appendTo("body");
+                        }
                     }
-                }
+                },
+                tabs: config["navbar"]["tabs"]
             },
-            tabs: config["navbar"]["tabs"]
-        },
-        //footer: "<a class='ui-button-download-data'><div>Download as CSV</div></a>",
-        eventOptions: {
-            //contentDef: mainNavContentDef
-        },
-        controls: function() {
-            return $("<div class='controls'></div>").append(function() {
-                return new UI_Button({
-                    attributes: {
-                        class: "ui-sidebar-toggle"
-                    },
-                    eventHandlers: {
-                    },
-                    content: "<span>X</span>"
+            //footer: "<a class='ui-button-download-data'><div>Download as CSV</div></a>",
+            eventOptions: {
+                //contentDef: mainNavContentDef
+            },
+            controls: function() {
+                return $("<div class='controls'></div>").append(function() {
+                    return new UI_Button({
+                        attributes: {
+                            class: "ui-sidebar-toggle"
+                        },
+                        eventHandlers: {
+                        },
+                        content: "<span>X</span>"
+                    });
                 });
-            });
-        }(),
-        class: "sidebar left"
-    };
+            }(),
+            class: "sidebar left"
+        };
+    }
 
-    (new UI_Navigation(navigationColumnOptions)).done(function(uiObject) {
+    (new UI_Navigation(new navigationColumnOptions(config))).done(function(uiObject) {
         uiObject.getUI().appendTo("body");
     });
     /*$("<div class='col-plug'>").appendTo($("#extension-box").find(".ui-button-column-toggle"));*/
@@ -159,6 +160,7 @@ $(document).ready(function() {
     function placeLocationMarkers(data, params) {
         locationsLayerGroup = L.geoJson(data, {
             onEachFeature: function(feature, layer) {
+
             },
             pointToLayer: function(feature, latlng) {
                 var marker = L.marker(latlng, {
@@ -170,6 +172,11 @@ $(document).ready(function() {
             }
         }).addTo(map);
 
+        locationsLayerGroup["visibility"] = {
+            "max-zoom": config["start-screen-zoom-limits"]["max"],
+            "min-zoom": config["start-screen-zoom-limits"]["min"]
+        };
+
         $.map(locationsLayerGroup._layers, function(layer, index) {
             setTimeout(function() {
                 $(layer._icon).append(new UI_ReactiveMarker({
@@ -178,10 +185,25 @@ $(document).ready(function() {
                         attributes: {
                         },
                         eventHandlers: {
-                            click: {
+                            click: function(e) {
+                                if (map.getZoom() > config["start-screen-zoom-limits"]["max"] || map.getZoom() < config["start-screen-zoom-limits"]["min"])
+                                    return;
+
+                                config["navbar"]["tabs"].push(layer.feature.properties.getAttributes().name);
+                                config["main-headings"].map(function(item, index) {
+                                    config["navbar"]["tabs"].push(item);
+                                });
+
+                                map.setView(layer._latlng, config["start-screen-zoom-limits"]["max"] + 1, {
+                                    animate: true
+                                });
+
+                                (new UI_Navigation(new navigationColumnOptions(config))).done(function(uiObject) {
+                                    $(".ui-navigation.sidebar").html(uiObject.getUI().children());
+                                });
                             }
                         },
-                        content: "<span>Got to <b>" + layer.feature.properties.getAttributes().name + "</b></span>"
+                        content: "<span>Go to <b>" + layer.feature.properties.getAttributes().name + "</b></span>"
                     })
                 }));
             });
@@ -203,6 +225,35 @@ $(document).ready(function() {
 
     modelQueryLocations.done(function(data, params) {
         placeLocationMarkers(data, params);
+    });
+
+    map.on("zoomend", function(e) {
+        var context = this;
+        setTimeout(function() {
+            if (context.getZoom() < locationsLayerGroup.visibility["max-zoom"] && context.getZoom() > locationsLayerGroup.visibility["min-zoom"]) {
+                console.log(config["navbar"]["tabs"].length);
+                if (Boolean(config["navbar"]["tabs"].length - 1)) {
+                    console.log("ok");
+                    config["main-headings"].map(function(item, index) {
+
+                        config["navbar"]["tabs"].pop();
+                    });
+
+                    config["navbar"]["tabs"].pop();
+
+                    (new UI_Navigation(new navigationColumnOptions(config))).done(function(uiObject) {
+                        $(".ui-navigation.sidebar").html(uiObject.getUI().children());
+                    });
+
+
+
+                }
+                $(".icon-location-marker").show();
+            } else {
+
+                $(".icon-location-marker").hide();
+            }
+        }, 0);
     });
 
 });

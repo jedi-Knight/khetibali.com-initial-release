@@ -175,7 +175,7 @@ a.panel-control-button{
 
 .icon-location-marker div{
     /*position: relative;*/
-    width: 120px !important;
+    width: 60px !important;
     height: auto !important;
     text-align: center;
     overflow: hidden;
@@ -188,11 +188,54 @@ a.panel-control-button{
     color: #ffffff;
     font-family: "Verdana";
     font-size: 10pt;
-    width: 124px;
+    width: 62px;
     left:0px;
 }
 
 .icon-location-marker{
+    width: auto !important;
+    height: auto !important;
+    background-color: rgba(160,207,103,0.8);
+    padding: 2px;
+    top: -55px;
+    left: -30px;
+    text-align: center;
+}
+.icon-location-marker div:after{
+    content: "";
+    position: absolute;
+    bottom: -7px;
+    border-width: 7px 7px 0;
+    border-style: solid;
+    /*width: 50px;*/
+    left: 22px;
+    border-color: rgba(160,207,103,0.8) transparent;
+}
+
+.icon-location-marker img{
+    width: 60px;
+}
+
+.icon-location-marker:hover div{
+    /*position: relative;*/
+    width: 120px !important;
+    height: auto !important;
+    text-align: center;
+    overflow: hidden;
+}
+
+.icon-location-marker:hover a{
+    position: absolute;
+    background-color: rgba(160,207,103,0.8);
+    bottom:0px;
+    color: #ffffff;
+    font-family: "Verdana";
+    font-size: 10pt;
+    width: 124px;
+    left:0px;
+}
+
+.icon-location-marker:hover{
     width: auto !important;
     height: auto !important;
     background-color: rgba(160,207,103,0.8);
@@ -201,7 +244,7 @@ a.panel-control-button{
     left: -60px;
     text-align: center;
 }
-.icon-location-marker div:after{
+.icon-location-marker:hover div:after{
     content: "";
     position: absolute;
     bottom: -15px;
@@ -212,7 +255,7 @@ a.panel-control-button{
     border-color: rgba(160,207,103,0.8) transparent;
 }
 
-.icon-location-marker img{
+.icon-location-marker:hover img{
     width: 120px;
 }
 

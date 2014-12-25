@@ -76,6 +76,11 @@ config = {
     "navbar": {
         title: "Khetibali",
         tabs: ["About Khetibali"]
+    },
+    "main-headings": ["People", "Process"],
+    "start-screen-zoom-limits":{
+        "max":12,
+        "min": 7
     }
 };
 
