@@ -1111,3 +1111,68 @@ function UI_ReactiveMarker(options) {
 function UI_SummarySmallWidget(options) {
     return (new UI_PanelDocumentSinglePage(options)).getDocument().addClass("widget-small");
 }
+
+function UI_PiechartGallery(options) {
+    var widgetBox = $("<div></div>").addClass("widget-chart-gallery-piechart").addClass(options.class);
+
+    setTimeout(function() {
+        for (var chart in options.charts) {
+            if (options.charts[chart].length) {
+                var chartBox = $("<div></div>").addClass("icon-chart-preview");
+                chartBox.appendTo(widgetBox);
+                var chartOptions = {
+                    size: {
+                        canvasHeight: 50,
+                        canvasWidth: 50
+                    },
+                    labels: {
+                        outer: {
+                            format: "none"
+                        },
+                        inner:{
+                            format: "none"
+                        }
+                    },
+                    effects:{
+                        load:{
+                            effect: "none"
+                        }
+                    },
+                    data: {
+                        //content: options.charts[chart]
+                        content: options.charts[chart]
+                    }
+                };
+                //console.log(options.charts);
+
+                chartBox.click(function(e) {
+                    var chartBoxLarger = $("<div></div>").addClass("chart-view").appendTo(widgetBox);
+                    $("<div></div>").addClass("chart-view-close-button").text("X").appendTo(chartBoxLarger).click(function() {
+                        chartBoxLarger.remove();
+                    });
+                    var fullChartOptions = {
+                        /*header: {
+                         title: {
+                         text: "A very simple example pie"
+                         }
+                         },*/
+                        data: {
+                            //content: options.charts[chart]
+                            content: options.charts[chart]
+                        }
+
+                    };
+                    new d3pie(chartBoxLarger[0], chartOptions);
+                });
+
+                //var pie;
+
+                var pie = new d3pie(chartBox[0], chartOptions);
+            }
+        }
+    }, 0);
+
+    widgetBox.appendTo(options.container);
+
+    //return widgetBox;
+}

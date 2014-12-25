@@ -162,6 +162,7 @@ $(document).ready(function() {
     /*$("<div class='col-plug'>").appendTo($("#extension-box").find(".ui-button-column-toggle"));*/
 
     var locationsLayerGroup;
+    var farmlandLayerGroup;
 
     function createLocationSummarySmallWidget(options) {
         (new UI_SummarySmallWidget(options)).appendTo(".leaflet-right.leaflet-bottom");
@@ -233,17 +234,39 @@ $(document).ready(function() {
                                     })
                                 });
 
-                                var modelQueryLocations = mapData.fetchData({
+                                var modelQueryFarmland = mapData.fetchData({
                                     query: {
                                         geometries: {
                                             type: "polygons",
                                             group: layer.feature.properties.getAttributes().name
                                         },
-                                        url: "farmdata/"+layer.feature.properties.getAttributes().name.toLowerCase().replace(/ /g, "_") +".geojson"
+                                        url: "farmdata/" + layer.feature.properties.getAttributes().name.toLowerCase().replace(/ /g, "_") + ".geojson"
                                     },
                                     returnDataMeta: {
                                         "type": "food_secutiry_osm_geojson"
                                     }
+                                });
+
+                                modelQueryFarmland.done(function(data, params) {
+                                    farmlandLayerGroup = L.geoJson(data, {
+                                        onEachFeature: function(feature, layer) {
+                                            layer._cartomancerStyleIndex = 0;
+                                            layer.setStyle(config["layer-styles"]["map-features"][feature.properties.getAttributes()["farming_system"]]);
+                                            layer.bindPopup("");
+                                            /*console.log(Boolean(feature.properties.getAttributes().cropData));
+                                            if (Boolean(feature.properties.getAttributes().cropData)) {
+                                                new UI_PiechartGallery({
+                                                    charts: feature.properties.getAttributes().cropData
+                                                });
+                                            }*/
+                                            layer.on("popupopen", function(e){
+                                                new UI_PiechartGallery({
+                                                    charts: feature.properties.getAttributes().cropData,
+                                                    container: this._popup._contentNode
+                                                });
+                                            });
+                                        }
+                                    }).addTo(map);
                                 });
                             }
                         },
