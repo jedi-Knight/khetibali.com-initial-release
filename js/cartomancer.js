@@ -260,9 +260,23 @@ $(document).ready(function() {
                                                 });
                                             }*/
                                             layer.on("popupopen", function(e){
+                                                if($(this._popup._contentNode).find("svg").length) return;
                                                 new UI_PiechartGallery({
                                                     charts: feature.properties.getAttributes().cropData,
-                                                    container: this._popup._contentNode
+                                                    container: this._popup._contentNode,
+                                                    //"label-position": [0,-120]
+                                                });
+                                                
+                                                console.log($(this._popup._contentNode).find("text"));
+                                                
+                                                
+                                                
+                                                $(this._popup._contentNode).prepend(function(){
+                                                   var infoBox = $("<div></div>").addClass("farmland-infobox");
+                                                   infoBox.append("<h3>Farmland</h3>");
+                                                   infoBox.append($("<div class='label'></div>").text(feature.properties.getAttributes().farmland_type==="khet"? "Irrigated":"Unirrigated"));
+                                                   infoBox.append("<div class='instruction'>These piecharts show the percentage by area of crops planted in this farmland. Click on a preview below to view larger chart.</div>")
+                                                   return infoBox;
                                                 });
                                             });
                                         }

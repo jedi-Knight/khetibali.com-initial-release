@@ -59,7 +59,13 @@ config = {
         "Magh",
         "Falgun",
         "Chaitra"
-    ]
+    ],
+    "seasons":{
+        "0":"Baishak-Ashad",
+        "3":"Shrawan-Aswin",
+        "6":"Kartik-Poush",
+        "9":"Magh-Chaitra"
+    }
 };
 
 mainNavContentDef = {

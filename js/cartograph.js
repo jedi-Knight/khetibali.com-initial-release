@@ -1044,7 +1044,18 @@ function FloatingPage(options) {
 
                     if (data.content[triad]["right"])
                         $("<div></div>").addClass(function() {
-                            return data.content[triad]["special-classes"] && data.content[triad]["special-classes"]["right"] ? "right " + data.content[triad]["special-classes"]["right"] : "right";
+                            var cssClass = "right";
+
+                            if (data.content[triad]["special-classes"] && data.content[triad]["special-classes"]["right"])
+                                cssClass += " " + data.content[triad]["special-classes"]["right"];
+
+                            var contentSelection = $(data.content[triad]["right"]);
+                            if (contentSelection.is("img") && contentSelection.length === 1)
+                                cssClass += " " + "picturebox";
+
+                            return cssClass;
+                            
+                            //return data.content[triad]["special-classes"] && data.content[triad]["special-classes"]["right"] ? "right " + data.content[triad]["special-classes"]["right"] : "right";
                         }).html(data.content[triad]["right"]).appendTo(content);
 
                     if (data.content[triad]["block"])
@@ -1116,25 +1127,33 @@ function UI_PiechartGallery(options) {
     var widgetBox = $("<div></div>").addClass("widget-chart-gallery-piechart").addClass(options.class);
 
     setTimeout(function() {
+        console.log(options.charts);
         for (var chart in options.charts) {
             if (options.charts[chart].length) {
                 var chartBox = $("<div></div>").addClass("icon-chart-preview");
+                chartBox.attr("chart", chart);
                 chartBox.appendTo(widgetBox);
                 var chartOptions = {
+                    header: {
+                        title: {
+                            text: config["seasons"][chart],
+                            fontSize: 12
+                        }
+                    },
                     size: {
-                        canvasHeight: 50,
-                        canvasWidth: 50
+                        canvasHeight: 120,
+                        canvasWidth: 120
                     },
                     labels: {
                         outer: {
                             format: "none"
                         },
-                        inner:{
+                        inner: {
                             format: "none"
                         }
                     },
-                    effects:{
-                        load:{
+                    effects: {
+                        load: {
                             effect: "none"
                         }
                     },
@@ -1146,28 +1165,61 @@ function UI_PiechartGallery(options) {
                 //console.log(options.charts);
 
                 chartBox.click(function(e) {
-                    var chartBoxLarger = $("<div></div>").addClass("chart-view").appendTo(widgetBox);
+                    $(this).closest(".widget-chart-gallery-piechart").find(".chart-view").remove();
+                    var charViewContainer = $("<div></div>").addClass("view-box");
+                    charViewContainer.appendTo(widgetBox);
+                    var chartBoxLarger = $("<div></div>").addClass("chart-view").appendTo(charViewContainer);
                     $("<div></div>").addClass("chart-view-close-button").text("X").appendTo(chartBoxLarger).click(function() {
                         chartBoxLarger.remove();
                     });
+                    console.log(this);
                     var fullChartOptions = {
-                        /*header: {
-                         title: {
-                         text: "A very simple example pie"
-                         }
-                         },*/
+                        header: {
+                            title: {
+                                text: config["seasons"][$(this).attr("chart")],
+                                fontSize: 12
+                            }
+                        },
+                        size: {
+                            canvasHeight: 450,
+                            canvasWidth: 700,
+                            pieOuterRadius: "100%",
+                        },
+                        effects: {
+                            load: {
+                                effect: "none"
+                            }
+                        },
                         data: {
                             //content: options.charts[chart]
-                            content: options.charts[chart]
+                            content: options.charts[$(this).attr("chart")]
+                        },
+                        tooltips: {
+                            enabled: true,
+                            type: "placeholder",
+                            string: "{label}: {percentage}%",
+                            styles: {
+                                fadeInSpeed: 500,
+                                backgroundColor: "#00cc99",
+                                backgroundOpacity: 0.8,
+                                color: "#ffffcc",
+                                borderRadius: 4,
+                                font: "verdana",
+                                fontSize: 20,
+                                padding: 20
+                            }
                         }
 
                     };
-                    new d3pie(chartBoxLarger[0], chartOptions);
+                    new d3pie(chartBoxLarger[0], fullChartOptions);
                 });
 
                 //var pie;
 
                 var pie = new d3pie(chartBox[0], chartOptions);
+//                //console.log(options["label-position"]);
+//                $(chartBox[0]).find("text").attr("x", options["label-position"][0]);
+//                $(chartBox[0]).find("text").attr("y", options["label-position"][1]);
             }
         }
     }, 0);
