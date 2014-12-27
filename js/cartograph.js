@@ -1273,3 +1273,51 @@ function UI_PiechartGallery(options) {
     //return widgetBox;
 }
 
+/**
+ * 
+ * @param {type} options
+ * @returns {undefined}
+ *NEEDS TESTING
+function UI_LayerSwitcherLegend(options){
+    var groupingOptions = $.extend({
+        "filterFunction": function(options){
+            if((options.layer.feature.getAttributes()[options.categoryKey]).toLowerCase().indexOf(options.category)) return true;
+            else return false;
+        }
+    }, options);
+    var layerGroupDeferred = new LayerGroups(groupingOptions);
+    var layerGroups = {};
+    
+    var container = $("<div></div>").addClass("ui-layer-switcher-legend").addClass(options.class);
+    
+    layerGroupDeferred.done(function(_layerGroups){
+        layerGroups = _layerGroups;
+        console.log(L.control.layers({}, layerGroups));
+    });
+}
+**/
+
+function UI_LayerSwitcherLegend(options){
+    var deferred = $.Deferred();
+    var layerSwitcherLegend = L.control.layers($.extend({}, options.basemap), $.extend({}, options.layerGroups), $.extend({}, options.layerControlOptions)).addTo(options.map);
+    var container = $(layerSwitcherLegend._container).addClass("ui-layerSwitcher-legend");
+    container.hide();
+    
+    
+    setTimeout(function(){
+        container.find("input").each(function(){
+            $(this).click();
+            var legendID = $(this).parent().children("span").text().trim();
+            var legendIcon = $("<div></div>").addClass("ui-legend-icon").addClass(legendID);
+            legendIcon.css({
+                "background-image": config["layer-styles"]["legend-icons"][legendID]
+            });
+            legendIcon.insertAfter($(this));
+        });
+    },0);
+    
+    
+    return $.extend(true, {
+        uiElement: container
+    }, deferred.promise());
+}

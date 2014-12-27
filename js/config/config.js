@@ -45,6 +45,10 @@ config = {
         "inset-map-current-view":{
             opacity: 0,
             fillOpacity: 0
+        },
+        "legend-icons":{
+            "khet": "images/khet.png",
+            "bari": "images/bari.png"
         }
     },
     "navbar": {

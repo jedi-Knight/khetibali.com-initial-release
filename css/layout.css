@@ -65,14 +65,24 @@ body{
 .sidebar.left .ui-navigation-group a{
     display: inline-block;
     font-size: 2em;
-    margin: 19pt 0px 19pt 20px;
+    /*margin: 19pt 0px 19pt 20px;*/
+    padding: 19pt 0px 19pt 20px;
     /*line-height: 68pt;*/
     width: 268px;
     cursor: pointer;
 }
 .sidebar.left .ui-navigation-group a:hover, .sidebar.left .ui-navigation-group a:active{
     color: #0078a8;
-    text-style: underline;
+    text-decoration: underline;
+    /*background-color: rgba(160,207,133,0.4);*/
+    outline: #a0cf85 thin solid;
+}
+
+.sidebar.left .ui-navigation-group a.active:hover, .sidebar.left .ui-navigation-group a.active:active{
+    color: #007833;
+    text-decoration: none;
+    cursor: default;
+    outline: none;
 }
 
 .sidebar.left div.controls{
@@ -338,10 +348,18 @@ a.panel-control-button{
     margin: 0px;
     padding: 0px;
     flex-flow: initial;
+    box-shadow: initial;
 }
 
 .widget-small{
     display: inline-block;
+}
+.widget-small .titleBar{
+    font-size: 12pt;
+    font-weight: 100;
+    background-color: rgba(160, 207, 133, 0.8);
+    color: #333333;
+    text-shadow: 0px 0px 4px rgba(255,255,255,1);
 }
 
 .icon-chart-preview{
@@ -450,7 +468,43 @@ a.panel-control-button{
     color: #999999;
 }
 
+a.active{
+    background-color: rgba(160,207,133,0.8);
+    /*color: #333333;*/
+    color: #007833;
+    text-shadow: 0px 0px 4px rgba(255,255,255,1);
+    text-decoration: none;
+    outline: none;
+    pointer-events: none;
+}
+a.active:hover, a.active:active{
+    /*color: #333333;*/
+    color: #007833;
+    text-decoration: none;
+    outline: none;
+}
+
+.ui-legend-icon{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+}
+
+.ui-layerSwitcher-legend{
+    text-transform: capitalize;
+    font-size: 12pt;
+}
+
+.leaflet-control-layers{
+    border-radius: 0px;
+}
+
+
 /**TEMPORARY HACKS:**/
+.panel-control-icon{
+    font-size: 20px;
+}
+
 a.ui-map-view-reset{
     margin-right: -252px;
     margin-top: 6px;

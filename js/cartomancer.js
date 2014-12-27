@@ -93,6 +93,21 @@ $(document).ready(function() {
 
     mapGlobals.mapData = mapData;
 
+    var legendLayerGroups = {
+        "khet": L.layerGroup(),
+        "bari": L.layerGroup()
+    };
+    
+    var layerSwitcherLegend = new UI_LayerSwitcherLegend({
+        layerGroups: legendLayerGroups,
+        map: map,
+        layerControlOptions: {
+            collapsed: false
+        }
+    });
+
+    mapGlobals.legendLayerGroups = legendLayerGroups;
+
 
     //var floatingPageWidget = null;
     function navigationColumnOptions(config) {
@@ -103,6 +118,12 @@ $(document).ready(function() {
                 },
                 eventHandlers: {
                     click: function(e, eventOptions) {
+
+                        $(".ui-navigation.sidebar").find(".ui-navigation-group a").removeClass("active");
+
+                        $(this).addClass("active");
+                        var navTab = $(this);
+
                         //if (floatingPageWidget) {
                         var floatingPageWidget = $("body").find(".sidebar-float.panel-document");
                         if (floatingPageWidget.length) {
@@ -126,11 +147,14 @@ $(document).ready(function() {
                                                 click: function(e, eventOptions) {
 //                                                $(this).closest(".panel-document").remove();
 //                                                eventOptions.target=null;
-                                                    $(eventOptions.target).remove();
+                                                    $(eventOptions.floatingPageWidget).remove();
+                                                    $(eventOptions.navigationBarTab).removeClass("active");
+
                                                 }
                                             },
                                             eventOptions: {
-                                                target: floatingPageWidget
+                                                floatingPageWidget: floatingPageWidget,
+                                                navigationBarTab: navTab
                                             },
                                             content: "<div class='panel-control-icon'>X</div>"
                                         });
@@ -159,12 +183,15 @@ $(document).ready(function() {
                                             eventHandlers: {
                                                 click: function(e, eventOptions) {
                                                     $(this).closest(".panel-document").children().remove();
+                                                    //$(eventOptions.floatingPageWidget).remove();
+                                                    $(eventOptions.navigationBarTab).removeClass("active");
 //                                                eventOptions.target=null;
                                                     //$(eventOptions.target).remove();
                                                 }
                                             },
                                             eventOptions: {
-                                                target: floatingPageWidget
+                                                floatingPageWidget: floatingPageWidget,
+                                                navigationBarTab: navTab
                                             },
                                             content: "<div class='panel-control-icon'>X</div>"
                                         });
@@ -203,6 +230,7 @@ $(document).ready(function() {
                                 eventOptions.map.options.minZoom = config["start-screen-zoom-limits"]["min"];
                                 eventOptions.map.fitBounds(eventOptions.map.initBounds);
                                 eventOptions.map.options.maxZoom = config["start-screen-zoom-limits"]["max"];
+                                layerSwitcherLegend.uiElement.hide();
                                 $(this).addClass("inactive");
                             }
                         },
@@ -221,6 +249,7 @@ $(document).ready(function() {
 
     (new UI_Navigation(new navigationColumnOptions(config))).done(function(uiObject) {
         uiObject.getUI().appendTo("body");
+        layerSwitcherLegend.uiElement.hide();
         $("a.ui-map-view-reset").addClass("inactive");
     });
     /*$("<div class='col-plug'>").appendTo($("#extension-box").find(".ui-button-column-toggle"));*/
@@ -322,11 +351,11 @@ $(document).ready(function() {
                                         },
                                         "query-type": "widget-query",
                                         "widget": "location-summary",
-                                        "group": layer.feature.properties.getAttributes().name,
-                                        titleBar: {
-                                            title: "Major crops in " + layer.feature.properties.getAttributes().name
-                                        }
-                                    })
+                                        "group": layer.feature.properties.getAttributes().name
+                                    }),
+                                    titleBar: {
+                                        title: "Major crops in " + layer.feature.properties.getAttributes().name
+                                    }
                                 });
 
 
@@ -376,9 +405,22 @@ $(document).ready(function() {
                                                     return infoBox;
                                                 });
                                             });
+
+                                            
+                                            try {
+                                                legendLayerGroups[feature.properties.getAttributes()["farming_system"]].addLayer(layer);
+                                            } catch (e) {
+                                                console.log("farming_system not defined for " + feature.properties.getAttributes()["id"]);
+                                            }
+
                                         }
                                     }).addTo(map);
+
+
+
                                 });
+                                
+                                layerSwitcherLegend.uiElement.show();
 
                                 $("a.ui-map-view-reset").removeClass("inactive");
                             }
