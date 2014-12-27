@@ -9,7 +9,7 @@ function Map(options) {
         attributionControl: false,
         inertia: true
     };
-
+    
     if (options && options["mapOptions"]) {
         $.extend(mapOptions, options.mapOptions);
     }
@@ -38,7 +38,7 @@ function Map(options) {
 //    }).addAttribution('Basemap data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors | Map by <a href="http://kathmandulivinglabs.org"><div class="logo"><img class="klllogo" src="images/klllogo.gif"/></div>Kathmandu Living Labs </a>').addTo(map);
 
     L.control.scale({
-        position: "bottomright"
+        position: "bottomleft"
     }).addTo(map);
 
     map.addLayer(osmTileLayer);
@@ -61,7 +61,15 @@ function Map(options) {
         position: "topright"
     }).addTo(map);
     //layersControl._layers.dummylayer1.layer;
-
+    
+    function _getTileLayer(){
+        return osmTileLayer;
+    }
+    
+    this.getTileLayer = function(){
+        return _getTileLayer();
+    }
+    
     this.getMap = function() {
         return map;
     };
@@ -92,6 +100,8 @@ function UI_OverviewMap(options) {
 
     var map = null;
 
+    var ui = $("<div>").append($("<div/>").append($("<div/>").attr("id", options["ui-dom-id"])).addClass(options["ui-map-box-class"])).addClass(options["ui-container-class"]);
+
     function _drawMap() {
         map = L.map(options["ui-dom-id"], {
             center: options.map.getCenter(),
@@ -101,11 +111,16 @@ function UI_OverviewMap(options) {
             zoomControl: false
         });
 
-        var basemap = L.tileLayer('http://104.131.69.181/osm/{z}/{x}/{y}.png', {
-            //attribution: 'Map data and tiles &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://www.openstreetmap.org/copyright/">Read the Licence here</a> | Cartography &copy; <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs</a>, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-            maxZoom: 13,
-            minZoom: 13
-        });
+        var basemap;
+
+        if (options.basemap)
+            basemap = options.basemap;
+        else
+            basemap = L.tileLayer('http://104.131.69.181/osm/{z}/{x}/{y}.png', {
+                //attribution: 'Map data and tiles &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://www.openstreetmap.org/copyright/">Read the Licence here</a> | Cartography &copy; <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs</a>, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+                maxZoom: 5,
+                minZoom: 5
+            });
 
 
         //map.addLayer(options.basemap);
@@ -146,6 +161,11 @@ function UI_OverviewMap(options) {
                 options.map.panTo(e.latlng);
             });
         }
+        if (options["ui-controls"]) {
+            for (var c in options["ui-controls"]) {
+                options["ui-controls"][c]["uiDOM"].addClass(options["ui-controls"][c]["class"]).appendTo(ui);
+            }
+        }
 
     }
 
@@ -153,12 +173,20 @@ function UI_OverviewMap(options) {
         _drawMap();
     };
 
-    this.getMap = function() {
+    function _getMap() {
         return map;
+    }
+
+    this.getMap = function() {
+        return _getMap();
     };
 
+    function _getUI() {
+        return ui;
+    }
+
     this.getUI = function() {
-        return $("<div>").append($("<div/>").append($("<div/>").attr("id", options["ui-dom-id"])).addClass(options["ui-map-box-class"])).addClass(options["ui-container-class"])[0];
+        return _getUI();
     };
 }
 
@@ -943,12 +971,14 @@ function UI_Navigation(options) {
         deferred.resolve(uiObject);
     });
 
-    function _getUI() {
-        return container;
+    function _getUI(options) {
+        if(!options) options = {};
+        var returnComponent = Boolean(options.componentSelector)?container.find(options.componentSelector):container;
+        return returnComponent;
     }
 
-    this.getUI = function() {
-        return _getUI();
+    this.getUI = function(options) {
+        return _getUI(options);
     };
 
     return $.extend(this, deferred.promise());
@@ -1007,7 +1037,7 @@ function UI_PanelDocumentSinglePage(options) {
     }, 0);
 
     function _getDocument() {
-        return $(_panelDocument);
+        return $.extend($(_panelDocument), options);
     }
 
     this.getDocument = function() {
@@ -1054,7 +1084,7 @@ function FloatingPage(options) {
                                 cssClass += " " + "picturebox";
 
                             return cssClass;
-                            
+
                             //return data.content[triad]["special-classes"] && data.content[triad]["special-classes"]["right"] ? "right " + data.content[triad]["special-classes"]["right"] : "right";
                         }).html(data.content[triad]["right"]).appendTo(content);
 
@@ -1104,7 +1134,7 @@ function GIFSand(options) {
 }
 
 function UI_ReactiveMarker(options) {
-    var icon = $("<div></div>");
+    var icon = $("<div></div>").addClass(options["class"]);
 
     icon.append($("<img/>").attr("src", options["img-src"]));
     var label = $(options["label"]).length ? options["label"] : $("<span></span>").text(options["label"]);
@@ -1120,7 +1150,7 @@ function UI_ReactiveMarker(options) {
 }
 
 function UI_SummarySmallWidget(options) {
-    return (new UI_PanelDocumentSinglePage(options)).getDocument().addClass("widget-small");
+    return $.extend(this, (new UI_PanelDocumentSinglePage(options)).getDocument().addClass("widget-small"));
 }
 
 function UI_PiechartGallery(options) {
@@ -1177,8 +1207,10 @@ function UI_PiechartGallery(options) {
                         header: {
                             title: {
                                 text: config["seasons"][$(this).attr("chart")],
-                                fontSize: 12
-                            }
+                                fontSize: 16,
+                                color: "#a0cf85"
+                            },
+                            location: "top-left"
                         },
                         size: {
                             canvasHeight: 450,
@@ -1188,6 +1220,18 @@ function UI_PiechartGallery(options) {
                         effects: {
                             load: {
                                 effect: "none"
+                            }
+                        },
+                        labels: {
+                            value: {
+                                fontSize: 16
+                            },
+                            percentage: {
+                                fontSize: 16
+                            },
+                            mainLabel: {
+                                fontSize: 14,
+                                color: "#666666"
                             }
                         },
                         data: {
@@ -1200,9 +1244,9 @@ function UI_PiechartGallery(options) {
                             string: "{label}: {percentage}%",
                             styles: {
                                 fadeInSpeed: 500,
-                                backgroundColor: "#00cc99",
+                                backgroundColor: "#a0cf85",
                                 backgroundOpacity: 0.8,
-                                color: "#ffffcc",
+                                color: "#ffffff",
                                 borderRadius: 4,
                                 font: "verdana",
                                 fontSize: 20,
@@ -1228,3 +1272,4 @@ function UI_PiechartGallery(options) {
 
     //return widgetBox;
 }
+

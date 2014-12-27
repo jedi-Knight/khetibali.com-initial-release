@@ -12,25 +12,39 @@ config = {
     "map-options":{
         "min-zoom": 1,
         "max-zoom": 22,
-        "init-zoom": 7,
+        "init-zoom": 7.4,
         "center": [28.09639, 82.66546]
     },
     "layer-styles":{
         "map-features":{
             "khet":{
-                "color": "#666666",
+                "color": "#766533",
                 "weight": 4,
                 "opacity": 1,
-                "fillColor": "#999900",
+                "fillColor": "url('#khet')",
                 "fillOpacity": 1
             },
             "bari":{
-                "color": "#66aa99",
+                "color": "#eda900",
                 "weight": 4,
                 "opacity": 1,
-                "fillColor": "#33aa00",
+                "fillColor": "url('#bari')",
                 "fillOpacity": 1
+            },
+            "potato":{
+                fillColor: "url(#potatoes)",
+                fillOpacity: 1,
+                color: "#666666",
+                weight: 2
             }
+        },
+        "pie-chart-segments":{
+            "rice": "#cccc33",
+            "potatoes": "#cc7700"
+        },
+        "inset-map-current-view":{
+            opacity: 0,
+            fillOpacity: 0
         }
     },
     "navbar": {
@@ -67,6 +81,8 @@ config = {
         "9":"Magh-Chaitra"
     }
 };
+
+LayerStyles = config["layer-styles"];
 
 mainNavContentDef = {
     "About Khetibali": [
