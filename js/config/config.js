@@ -56,7 +56,7 @@ config = {
     },
     "navbar": {
         title: "Khetibali",
-        tabs: ["About Khetibali"]
+        tabs: ["About"]
     },
     "main-headings":{
         "start-page": ["About Khetibali"],

@@ -16,7 +16,7 @@
                         }
 		},
 		{
-			"left": "<img src='data/pictures/location_summary/spinach.jpg'/>",
+			"left": "<img src='data/pictures/location_summary/cauli.jpg'/>",
 			"block": "3600 ton/year",
                         "special-classes":{
                             "left":"cauliflower"
