@@ -38,7 +38,7 @@ function Map(options) {
 //    }).addAttribution('Basemap data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors | Map by <a href="http://kathmandulivinglabs.org"><div class="logo"><img class="klllogo" src="images/klllogo.gif"/></div>Kathmandu Living Labs </a>').addTo(map);
 
     L.control.scale({
-        position: "bottomright"
+        position: "bottomleft"
     }).addTo(map);
 
     map.addLayer(osmTileLayer);
@@ -61,6 +61,14 @@ function Map(options) {
         position: "topright"
     }).addTo(map);
     //layersControl._layers.dummylayer1.layer;
+
+    function _getTileLayer() {
+        return osmTileLayer;
+    }
+
+    this.getTileLayer = function() {
+        return _getTileLayer();
+    }
 
     this.getMap = function() {
         return map;
@@ -92,6 +100,8 @@ function UI_OverviewMap(options) {
 
     var map = null;
 
+    var ui = $("<div>").append($("<div/>").append($("<div/>").attr("id", options["ui-dom-id"])).addClass(options["ui-map-box-class"])).addClass(options["ui-container-class"]);
+
     function _drawMap() {
         map = L.map(options["ui-dom-id"], {
             center: options.map.getCenter(),
@@ -101,11 +111,16 @@ function UI_OverviewMap(options) {
             zoomControl: false
         });
 
-        var basemap = L.tileLayer('http://104.131.69.181/osm/{z}/{x}/{y}.png', {
-            //attribution: 'Map data and tiles &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://www.openstreetmap.org/copyright/">Read the Licence here</a> | Cartography &copy; <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs</a>, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-            maxZoom: 13,
-            minZoom: 13
-        });
+        var basemap;
+
+        if (options.basemap)
+            basemap = options.basemap;
+        else
+            basemap = L.tileLayer('http://104.131.69.181/osm/{z}/{x}/{y}.png', {
+                //attribution: 'Map data and tiles &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://www.openstreetmap.org/copyright/">Read the Licence here</a> | Cartography &copy; <a href="http://kathmandulivinglabs.org">Kathmandu Living Labs</a>, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+                maxZoom: 5,
+                minZoom: 5
+            });
 
 
         //map.addLayer(options.basemap);
@@ -146,6 +161,11 @@ function UI_OverviewMap(options) {
                 options.map.panTo(e.latlng);
             });
         }
+        if (options["ui-controls"]) {
+            for (var c in options["ui-controls"]) {
+                options["ui-controls"][c]["uiDOM"].addClass(options["ui-controls"][c]["class"]).appendTo(ui);
+            }
+        }
 
     }
 
@@ -153,12 +173,20 @@ function UI_OverviewMap(options) {
         _drawMap();
     };
 
-    this.getMap = function() {
+    function _getMap() {
         return map;
+    }
+
+    this.getMap = function() {
+        return _getMap();
     };
 
+    function _getUI() {
+        return ui;
+    }
+
     this.getUI = function() {
-        return $("<div>").append($("<div/>").append($("<div/>").attr("id", options["ui-dom-id"])).addClass(options["ui-map-box-class"])).addClass(options["ui-container-class"])[0];
+        return _getUI();
     };
 }
 
@@ -927,10 +955,18 @@ function UI_Navigation(options) {
         for (var tab in options.tabgroup.tabs) {
 
             (new UI_Button({
-                attributes: options.tabgroup.attributes,
+                attributes: $.extend({
+                    href: options.tabgroup.tabs[tab]
+                }, options.tabgroup.attributes),
                 eventHandlers: {
                     click: function(e, eventOptions) {
+                        e.preventDefault();
+                        //history.pushState(container.find("ui-navigation-group a.active").attr("class"));
+                        //history.pushState($(this).attr("href"));
+
+                        //history.pushState(this);
                         options.tabgroup.eventHandlers.click.call(this, e, eventOptions);
+
                     }
                 },
                 eventOptions: {
@@ -943,12 +979,15 @@ function UI_Navigation(options) {
         deferred.resolve(uiObject);
     });
 
-    function _getUI() {
-        return container;
+    function _getUI(options) {
+        if (!options)
+            options = {};
+        var returnComponent = Boolean(options.componentSelector) ? container.find(options.componentSelector) : container;
+        return returnComponent;
     }
 
-    this.getUI = function() {
-        return _getUI();
+    this.getUI = function(options) {
+        return _getUI(options);
     };
 
     return $.extend(this, deferred.promise());
@@ -1007,7 +1046,7 @@ function UI_PanelDocumentSinglePage(options) {
     }, 0);
 
     function _getDocument() {
-        return $(_panelDocument);
+        return $.extend($(_panelDocument), options);
     }
 
     this.getDocument = function() {
@@ -1044,7 +1083,18 @@ function FloatingPage(options) {
 
                     if (data.content[triad]["right"])
                         $("<div></div>").addClass(function() {
-                            return data.content[triad]["special-classes"] && data.content[triad]["special-classes"]["right"] ? "right " + data.content[triad]["special-classes"]["right"] : "right";
+                            var cssClass = "right";
+
+                            if (data.content[triad]["special-classes"] && data.content[triad]["special-classes"]["right"])
+                                cssClass += " " + data.content[triad]["special-classes"]["right"];
+
+                            var contentSelection = $(data.content[triad]["right"]);
+                            if (contentSelection.is("img") && contentSelection.length === 1)
+                                cssClass += " " + "picturebox";
+
+                            return cssClass;
+
+                            //return data.content[triad]["special-classes"] && data.content[triad]["special-classes"]["right"] ? "right " + data.content[triad]["special-classes"]["right"] : "right";
                         }).html(data.content[triad]["right"]).appendTo(content);
 
                     if (data.content[triad]["block"])
@@ -1093,7 +1143,7 @@ function GIFSand(options) {
 }
 
 function UI_ReactiveMarker(options) {
-    var icon = $("<div></div>");
+    var icon = $("<div></div>").addClass(options["class"]);
 
     icon.append($("<img/>").attr("src", options["img-src"]));
     var label = $(options["label"]).length ? options["label"] : $("<span></span>").text(options["label"]);
@@ -1109,5 +1159,184 @@ function UI_ReactiveMarker(options) {
 }
 
 function UI_SummarySmallWidget(options) {
-    return (new UI_PanelDocumentSinglePage(options)).getDocument().addClass("widget-small");
+    return $.extend(this, (new UI_PanelDocumentSinglePage(options)).getDocument().addClass("widget-small"));
+}
+
+function UI_PiechartGallery(options) {
+    var widgetBox = $("<div></div>").addClass("widget-chart-gallery-piechart").addClass(options.class);
+
+    setTimeout(function() {
+        console.log(options.charts);
+        for (var chart in options.charts) {
+            if (options.charts[chart].length) {
+                var chartBox = $("<div></div>").addClass("icon-chart-preview");
+                chartBox.attr("chart", chart);
+                chartBox.appendTo(widgetBox);
+                var chartOptions = {
+                    /*header: {
+                     title: {
+                     text: config["seasons"][chart],
+                     fontSize: 12
+                     },
+                     location: "top-left"
+                     },*/
+                    /*footer: {
+                        text: config["seasons"][chart],
+                        fontSize: 12,
+                        location: "left"
+                    },*/
+                    size: {
+                        canvasHeight: 120,
+                        canvasWidth: 120
+                    },
+                    labels: {
+                        outer: {
+                            format: "none"
+                        },
+                        inner: {
+                            format: "none"
+                        }
+                    },
+                    effects: {
+                        load: {
+                            effect: "none"
+                        }
+                    },
+                    data: {
+                        //content: options.charts[chart]
+                        content: options.charts[chart]
+                    }
+                };
+                //console.log(options.charts);
+
+                chartBox.click(function(e) {
+                    $(this).closest(".widget-chart-gallery-piechart").find(".chart-view").remove();
+                    var charViewContainer = $("<div></div>").addClass("view-box");
+                    charViewContainer.appendTo(widgetBox);
+                    var chartBoxLarger = $("<div></div>").addClass("chart-view").appendTo(charViewContainer);
+                    $("<div></div>").addClass("chart-view-close-button").text("X").appendTo(chartBoxLarger).click(function() {
+                        chartBoxLarger.remove();
+                    });
+                    console.log(this);
+                    var fullChartOptions = {
+                        header: {
+                            title: {
+                                text: config["seasons"][$(this).attr("chart")],
+                                fontSize: 16,
+                                color: "#a0cf85"
+                            },
+                            location: "top-left"
+                        },
+                        size: {
+                            canvasHeight: 450,
+                            canvasWidth: 700,
+                            pieOuterRadius: "100%",
+                        },
+                        effects: {
+                            load: {
+                                effect: "none"
+                            }
+                        },
+                        labels: {
+                            value: {
+                                fontSize: 16
+                            },
+                            percentage: {
+                                fontSize: 16
+                            },
+                            mainLabel: {
+                                fontSize: 14,
+                                color: "#666666"
+                            }
+                        },
+                        data: {
+                            //content: options.charts[chart]
+                            content: options.charts[$(this).attr("chart")]
+                        },
+                        tooltips: {
+                            enabled: true,
+                            type: "placeholder",
+                            string: "{label}: {percentage}%",
+                            styles: {
+                                fadeInSpeed: 500,
+                                backgroundColor: "#a0cf85",
+                                backgroundOpacity: 0.8,
+                                color: "#ffffff",
+                                borderRadius: 4,
+                                font: "verdana",
+                                fontSize: 20,
+                                padding: 20
+                            }
+                        }
+
+                    };
+                    new d3pie(chartBoxLarger[0], fullChartOptions);
+                });
+
+                //var pie;
+
+                var pie = new d3pie(chartBox[0], chartOptions);
+//                //console.log(options["label-position"]);
+//                $(chartBox[0]).find("text").attr("x", options["label-position"][0]);
+//                $(chartBox[0]).find("text").attr("y", options["label-position"][1]);
+            chartBox.append(function(){
+                    return $("<span></span>").text(config["seasons"][chart]);
+                });
+            }
+        }
+    }, 0);
+
+    widgetBox.appendTo(options.container);
+
+    //return widgetBox;
+}
+
+/**
+ * 
+ * @param {type} options
+ * @returns {undefined}
+ *NEEDS TESTING
+ function UI_LayerSwitcherLegend(options){
+ var groupingOptions = $.extend({
+ "filterFunction": function(options){
+ if((options.layer.feature.getAttributes()[options.categoryKey]).toLowerCase().indexOf(options.category)) return true;
+ else return false;
+ }
+ }, options);
+ var layerGroupDeferred = new LayerGroups(groupingOptions);
+ var layerGroups = {};
+ 
+ var container = $("<div></div>").addClass("ui-layer-switcher-legend").addClass(options.class);
+ 
+ layerGroupDeferred.done(function(_layerGroups){
+ layerGroups = _layerGroups;
+ console.log(L.control.layers({}, layerGroups));
+ });
+ }
+ **/
+
+function UI_LayerSwitcherLegend(options) {
+    var deferred = $.Deferred();
+    var layerSwitcherLegend = L.control.layers($.extend({}, options.basemap), $.extend({}, options.layerGroups), $.extend({}, options.layerControlOptions)).addTo(options.map);
+    var container = $(layerSwitcherLegend._container).addClass("ui-layerSwitcher-legend");
+    container.hide();
+
+
+    setTimeout(function() {
+        container.find("input").each(function() {
+            $(this).click();
+            var legendID = $(this).parent().children("span").text().trim();
+            var legendIcon = $("<div></div>").addClass("ui-legend-icon").addClass(legendID);
+            legendIcon.css({
+                "background-image": config["layer-styles"]["legend-icons"][legendID]["background-image"],
+                "background-color": config["layer-styles"]["legend-icons"][legendID]["background-color"]
+            });
+            legendIcon.insertAfter($(this));
+        });
+    }, 0);
+
+
+    return $.extend(true, {
+        uiElement: container
+    }, deferred.promise());
 }

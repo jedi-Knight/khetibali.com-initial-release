@@ -3,15 +3,24 @@
 	"content":[
 		{
 			"left": "<img src='data/pictures/location_summary/potato.jpg'/>",
-			"block": "4500 ton/year"
+			"block": "4500 ton/year",
+                        "special-classes":{
+                            "left":"potato"
+                        }
 		},
 		{
 			"left": "<img src='data/pictures/location_summary/kiwifruit.jpg'/>",
-			"block": "12 ton/year"
+			"block": "12 ton/year",
+                        "special-classes":{
+                            "left":"kiwi"
+                        }
 		},
 		{
 			"left": "<img src='data/pictures/location_summary/spinach.jpg'/>",
-			"block": "3600 ton/year"
+			"block": "3600 ton/year",
+                        "special-classes":{
+                            "left":"cauliflower"
+                        }
 		}
 	]
 }
