@@ -58,7 +58,10 @@ config = {
         title: "Khetibali",
         tabs: ["About Khetibali"]
     },
-    "main-headings": ["About Bajrabarahi","People", "Process"],
+    "main-headings":{
+        "start-page": ["About Khetibali"],
+        "bajrabarahi":["About Bajrabarahi","People", "Process"]
+    },
     "start-screen-zoom-limits":{
         "max":12,
         "min": 7

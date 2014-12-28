@@ -323,10 +323,13 @@ $(document).ready(function() {
                                 if (map.getZoom() > config["start-screen-zoom-limits"]["max"] || map.getZoom() < config["start-screen-zoom-limits"]["min"])
                                     return;
 
-                                config["navbar"]["tabs"].push(layer.feature.properties.getAttributes().name);
-                                config["main-headings"].map(function(item, index) {
-                                    config["navbar"]["tabs"].push(item);
-                                });
+                                /*config["navbar"]["tabs"].push(layer.feature.properties.getAttributes().name);
+                                 config["main-headings"].map(function(item, index) {
+                                 config["navbar"]["tabs"].push(item);
+                                 });*/
+
+                                config["navbar"]["title"] = layer.feature.properties.getAttributes().name;
+                                config["navbar"]["tabs"] = config["main-headings"][layer.feature.properties.getAttributes().name.toLowerCase()]
 
                                 map.options.maxZoom = 19;
                                 map.options.minZoom = config["start-screen-zoom-limits"]["max"] + 1;
@@ -341,6 +344,12 @@ $(document).ready(function() {
                                     $(".ui-navigation.sidebar").find(".ui-navigation-group").append(uiObject.getUI({
                                         componentSelector: ".ui-navigation-group a"
                                     }));
+
+                                    $(".ui-navigation.sidebar").find(".ui-navigation-title>h1").remove();
+                                    $(".ui-navigation.sidebar").find(".ui-navigation-title").append(uiObject.getUI({
+                                        componentSelector: ".ui-navigation-title h1"
+                                    }));
+
                                 });
 
                                 createLocationSummarySmallWidget({
@@ -455,32 +464,43 @@ $(document).ready(function() {
         setTimeout(function() {
             if (context.getZoom() <= locationsLayerGroup.visibility["max-zoom"] && context.getZoom() >= locationsLayerGroup.visibility["min-zoom"]) {
 //                console.log(config["navbar"]["tabs"].length);
-                if (Boolean(config["navbar"]["tabs"].length - 1)) {
+                //if (Boolean(config["navbar"]["tabs"].length - 1)) {
 //                    console.log("ok");
-                    config["main-headings"].map(function(item, index) {
+                /*config["main-headings"].map(function(item, index) {
+                 
+                 config["navbar"]["tabs"].pop();
+                 });*/
 
-                        config["navbar"]["tabs"].pop();
-                    });
+                //config["navbar"]["tabs"].pop();
 
-                    config["navbar"]["tabs"].pop();
+                config["navbar"]["title"] = "Khetibali";
+                config["navbar"]["tabs"] = config["main-headings"]["start-page"];
 
-                    (new UI_Navigation(new navigationColumnOptions(config))).done(function(uiObject) {
-                        //$(".ui-navigation.sidebar").remove();
-                        //$(".ui-navigation.sidebar").html(uiObject.getUI().children());
-                        //uiObject.getUI().appendTo("body");
+                (new UI_Navigation(new navigationColumnOptions(config))).done(function(uiObject) {
+                    //$(".ui-navigation.sidebar").remove();
+                    //$(".ui-navigation.sidebar").html(uiObject.getUI().children());
+                    //uiObject.getUI().appendTo("body");
 
-                        //uiObject.getUI().appendTo($(".ui-navigation.sidebar").find(".ui-navigation-group"));
-                        $(".ui-navigation.sidebar").find(".ui-navigation-group a").remove();
-                        $(".ui-navigation.sidebar").find(".ui-navigation-group").append(uiObject.getUI({
-                            componentSelector: ".ui-navigation-group a"
-                        }));
-                    });
+                    //uiObject.getUI().appendTo($(".ui-navigation.sidebar").find(".ui-navigation-group"));
+                    $(".ui-navigation.sidebar").find(".ui-navigation-group a").remove();
+                    $(".ui-navigation.sidebar").find(".ui-navigation-group").append(uiObject.getUI({
+                        componentSelector: ".ui-navigation-group a"
+                    }));
 
-                    removeLocationSummarySmallWidget();
+                    $(".ui-navigation.sidebar").find(".ui-navigation-title>h1").remove();
+                    $(".ui-navigation.sidebar").find(".ui-navigation-title").append(uiObject.getUI({
+                        componentSelector: ".ui-navigation-title h1"
+                    }));
 
 
 
-                }
+                });
+
+                removeLocationSummarySmallWidget();
+
+
+
+                //}
                 $(".icon-location-marker").show();
                 map.options.maxZoom = config["start-screen-zoom-limits"]["max"];
 
@@ -492,8 +512,8 @@ $(document).ready(function() {
     });
 
     /*window.addEventListener("popstate", function(e) {
-        $(".ui-navigation.sidebar").find("a[href='"+e.state+"']").click();
-    });*/
+     $(".ui-navigation.sidebar").find("a[href='"+e.state+"']").click();
+     });*/
 
 //    if (cartographOptions["mapOptions"]["zoom"] !== config["map-options"]["init-zoom"]) {
 //        setTimeout(function() {
