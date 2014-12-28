@@ -1,17 +1,17 @@
 {
-    "title": "Process",
+    "title": "Photographs",
     "content": [
         {
             "left": "<img src='https://farm4.staticflickr.com/3953/15135348754_31ae79f243_m.jpg'/>",
-            "right": "<p> Our first visit to <strong>Bajrabarahi</strong></p>"
+            "block": "<p> Our first visit to <strong>Bajrabarahi</strong></p>"
         },
         {
             "left": "<img src='https://farm6.staticflickr.com/5602/15569861788_3008fca880_m.jpg'/>",
-            "right": "<p> Factors such as <strong>Active Agricultural Community</strong>, availability of <strong>School</strong>,distance from <strong>Kathmandu Valley</strong> and availability of <strong>Satellite Image</strong> were the key factors for chosing <strong>Bajrabarahi</strong> as the first VDC for mapping <strong>Agricultural and FoodSecurity</strong> data.</p>"
+            "right": "<p> Factors such as <strong>Active Agricultural Community</strong>, availability of <strong>School</strong>,distance from <strong>Kathmandu Valley</strong> and availability of <strong>Satellite Image</strong> were the key factors for chosing <strong>Bajrabarahi</strong> as the first VDC for mapping <strong>Agricultural and Food Security</strong> data.</p>"
         },
         {
             "left": "<img src='https://farm4.staticflickr.com/3952/15135495534_bbcef4c497_m.jpg'/>",
-            "right": "<p>Place where training and mapping took place.</p>"
+            "right": "<p>The office building of Small farmers cooperative ltd was the place where training and mapping took place.</p>"
         },
         {
             "left": "<img src='https://farm8.staticflickr.com/7463/15876183802_318b469976_m.jpg'/>",
@@ -19,7 +19,7 @@
         },
         {
             "left": "<img src='https://farm9.staticflickr.com/8607/15875492821_209c482eda_m.jpg'/>",
-            "right": "<p> Students writing answers to the questions asked by Dr. Janardan Khadka. A questionare sessionas a part of research activity.</p>"
+            "right": "<p> Students writing answers to the questions. A questionare session as a part of research activity.</p>"
         },
         {
             "left": "<img src='https://farm8.staticflickr.com/7582/15690132440_83487a8d99_m.jpg'/>",
@@ -39,11 +39,11 @@
         },
         {
             "left": "<img src='https://farm8.staticflickr.com/7534/15876910152_c51d14acb9_m.jpg'/>",
-            "right": "<p> 95% of the mapping is done by the local citizens. KLL team members were there if they needed any help.</p>"
+            "right": "<p> Majority of mapping is done by the local citizens. KLL team members were there if they needed any help.</p>"
         },
         {
             "left": "<img src='https://farm8.staticflickr.com/7486/15893483856_3f2a442710_m.jpg'/>",
-            "right": "<p> One of the local agriculture entrepreneur enlightning KLL team about the agricultural product and the area. Theymapped the area and tagged the information themselves and finally uploaded those information to openstreetmap.org.</p>"
+            "right": "<p> One of the local agriculture entrepreneur enlightning KLL team about the agricultural product and the area. They mapped the area and tagged the information themselves and finally uploaded those information to openstreetmap.org.</p>"
         },
         {
             "left": "<img src='https://farm9.staticflickr.com/8585/15297168264_435e97b68b_m.jpg'/>",

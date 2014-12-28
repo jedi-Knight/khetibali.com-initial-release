@@ -7,9 +7,12 @@
         <title>Khetibali</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
+
         <script src="js/jquery-2.1.1.min.js"></script>
+        <script src="js/d3.min.js"></script>
+        <script src="js/d3pie.min.js"></script>
         <script src="js/leaflet.js"></script>
+        <!--<link href='href="//fonts.googleapis.com/css?family=Lato:100normal,100italic,300normal,300italic,400normal,400italic,700normal,700italic,900normal,900italic|Open+Sans:400normal|Source+Sans+Pro:400normal|Open+Sans:400normal|Oswald:400normal|Gloria+Hallelujah:400normal|Roboto:400normal|Indie+Flower:400normal|PT+Sans:400normal|Raleway:400normal|Open+Sans+Condensed:300normal&subset=all"' rel='stylesheet' type='text/css'>-->
         <!--<script src="js/leaflet.markercluster.js"></script>-->
         <!--<script src="js/leaflet-search.js"></script>-->
 
@@ -17,12 +20,13 @@
         <!--<link rel="stylesheet" href="css/MarkerCluster.Default.css"/>-->
         <!--<link rel="stylesheet" href="css/MarkerCluster.css"/>-->
         <!--<link rel="stylesheet" href="css/leaflet-search.css"/>-->
-        
+
         <link rel="stylesheet" href="css/layout.css"/>
 
         <!--<link rel="stylesheet" href="css/mapstyle.css"/>-->
         <!--<link rel="stylesheet" href="css/theme.css"/>-->
         <script src="js/config/config.js"></script>
+        <script src="js/plugins.js"></script>
         <!--<script src="js/plugins.js"></script>-->
         <!--<script src="js/guiActions.js"></script>-->
         <script src="js/data.js"></script>
@@ -33,6 +37,116 @@
         <div id="mapBox">
             <div id="map" style="text-align:center;">
             </div>
+            <svg>
+            <defs>
+            <!--
+            <pattern id='heritage' patternUnits='userSpaceOnUse' width='16' height='16' viewBox='0 0 50 50'>
+                <rect width='50' height='50' fill='#663300'/>
+                <circle cx='25' cy='0' r='7' fill='#ccaa99'/>
+                <circle cx='25' cy='50' r='7' fill='#ccaa99'/>
+                <circle cx='0' cy='25' r='7' fill='#ccaa99'/>
+                <circle cx='50' cy='25' r='7' fill='#ccaa99'/>
+                <line x1='1' y1='0' x2='51' y2='50' stroke='#ccaa99' stroke-width='4'/>
+                <line x1='49' y1='0' x2='-1' y2='50' stroke='#ccaa99' stroke-width='4'/>
+                <line x1='50' y1='0' x2='0' y2='50' stroke='#ccaa99' stroke-width='4'/>
+                <line x1='0' y1='0' x2='50' y2='50' stroke='#ccaa99' stroke-width='4'/>
+            </pattern>-->
+
+            <pattern width='16' height='20' x='0' y='0' patternUnits='userSpaceOnUse' id='bari'>
+                <!--<rect width='16' height='20' fill='#ccffaa'/>-->
+                <g id='g'>
+                <path d='M3 6l-4 -6 v-2 l6 6' fill-opacity='0' stroke='#eda900'/>
+                <path d='M7 5l4 -6 v-2 l-6 6' fill-opacity='0' stroke='#66a977'/>
+                </g>
+                <use xlink:href='#g' y='-4'/>
+                <use xlink:href='#g' y='4'/>
+                <use xlink:href='#g' y='8'/>
+                <use xlink:href='#g' y='12'/>
+            </pattern>
+
+            <!--<filter id='glow'>
+                <feGaussianBlur stdDeviation='2.5' result='coloredBlur'/>
+                <feMerge>
+                    <feMergeNode in='coloredBlur'/>
+                    <feMergeNode in='SourceGraphic'/>
+                </feMerge>
+            </filter>
+    
+            <filter id='colored-glow'>
+                <feColorMatrix type='matrix' values=
+                               '1 0.5 0 0   0
+                               1 0.5 0 0   0
+                               1 0.5 0 0   0
+                               0 0 0 0.7 0'/>
+                <feGaussianBlur stdDeviation='2.5' result='coloredBlur'/>
+                <feMerge>
+                    <feMergeNode in='coloredBlur'/>
+                    <feMergeNode in='SourceGraphic'/>
+                </feMerge>
+            </filter>
+    
+            <filter id='shadow'>
+                <feGaussianBlur in='SourceAlpha' stdDeviation='6.2'/>
+                <feOffset dx='2' dy='2' result='offsetblur'/>
+                <feFlood flood-color='rgba(200,200,200,0.4)'/>
+                <feComposite in2='offsetblur' operator='in'/>
+                <feMerge>
+                    <feMergeNode/>
+                    <feMergeNode in='SourceGraphic'/>
+                </feMerge>
+            </filter>
+    
+            <pattern width='20' height='20' x='0' y='0' patternUnits='userSpaceOnUse' id='blackwater'>
+    
+                <circle cx='3' cy='4.3' r='1.8' fill='#393939'/>
+                <circle cx='3' cy='3' r='1.8' fill='black'/>
+                <circle cx='10.5' cy='12.5' r='1.8' fill='#393939'/>
+                <circle cx='10.5' cy='11.3' r='1.8' fill='black'/>
+            </pattern>
+            -->
+
+            <pattern id='khet_1' patternUnits='userSpaceOnUse' width='15' height='15' viewBox='0 0 10 10'>
+                <line x1='1' y1='0' x2='11' y2='10' stroke='#b89c4f' stroke-width='3'/>
+                <line x1='9' y1='0' x2='-1' y2='10' stroke='#b89c4f' stroke-width='3'/>
+                <line x1='10' y1='0' x2='0' y2='10' stroke='#8f6d2e' stroke-width='3'/>
+                <line x1='0' y1='0' x2='10' y2='10' stroke='#8f6d2e' stroke-width='3'/>
+                <radialGradient id='l' cx='50%' cy='20%' fy='0' r='21%'>
+                <stop offset='0%' style='stop-color:#fff; stop-opacity:.1;' />
+                <stop offset='10%' style='stop-color:#000; stop-opacity:0.1;' />
+                <stop offset='30%' style='stop-color:#000; stop-opacity:0.3;' />
+                <stop offset='90%' style='stop-color:#000; stop-opacity:0.55;' />
+                <stop offset='100%' style='stop-color:#000; stop-opacity:.6' />
+                </radialGradient>
+
+                <!--<rect fill='#ebb35e' width='100%' height='100%'/>
+                <rect fill='url(#tile)' width='100%' height='100%'/>-->
+                <rect width='100%' height='100%' fill='url(#l)'/>
+            </pattern>
+
+            <!--<pattern id='khet' patternUnits='userSpaceOnUse' width='15' height='15' viewBox='0 0 15 15'>
+                <rect width='15' height='15' fill='#766533'/>
+                <circle cx='5' cy='0' r='5' stroke-width='2' stroke='#997936' fill='none'/>
+                <circle cx='5' r='5' stroke-width='2' stroke='#997936' fill='none'/>
+                <circle cx='10' cy='0' r='5' stroke-width='2' stroke='#997936' fill='none'/>
+            </pattern>-->
+
+            <pattern id='khet' patternUnits='userSpaceOnUse' width='15' height='15' viewBox='0 0 15 15'>
+                <rect width='15' height='15' fill='#997936' fill-opacity='0.6'/>
+                <circle cx='5' cy='0' r='5' stroke-width='2' stroke='#766533' fill='none'/>
+                <circle cx='5' r='5' stroke-width='2' stroke='#766533' fill='none'/>
+                <circle cx='10' cy='0' r='5' stroke-width='2' stroke='#766533' fill='none'/>
+            </pattern>
+
+
+
+            <pattern id="potatoes" patternUnits="userSpaceOnUse" width="100" height="100">
+                <image xlink:href="data/pictures/location_summary/potato.jpg" x="0" y="0" width="100" height="100" />
+            </pattern>
+
+            </defs>
+
+
+            </svg>
         </div>
     </body>
 </html>
