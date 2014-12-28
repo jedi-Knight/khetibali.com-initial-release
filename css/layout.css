@@ -69,6 +69,8 @@ body{
     padding: 19pt 0px 19pt 20px;
     /*line-height: 68pt;*/
     width: 268px;
+    color: inherit;
+    text-decoration: initial;
     cursor: pointer;
 }
 .sidebar.left .ui-navigation-group a:hover, .sidebar.left .ui-navigation-group a:active{
@@ -366,7 +368,41 @@ a.panel-control-button{
     display: inline-block;
     width: 80px;
     height: 80px;
+    cursor: pointer;
+    margin-left: 2px;
+    margin-right: 2px;
 }
+
+.icon-chart-preview:first-child{
+    margin-left: 0px;
+    margin-right: 4px;
+}
+.icon-chart-preview:last-child{
+    margin-right: 0px;
+    margin-left: 4px;
+}
+
+.icon-chart-preview span{
+    margin-top: -10px;
+    display: inline-block;
+    /*width: 120px;*/
+    /*margin: -20px 10px 0px -10px;*/
+    
+    position: absolute;
+    width: 50px;
+    margin: -70px 8px 0px -36px;
+/*    color: #ffffff;
+    text-shadow: 0px 0px 2px #000000;*/
+    color: #333333;
+    background-color: rgba(255,255,255,0.8);
+    text-shadow: 0px 0px 2px #ffffff;
+}
+
+.icon-chart-preview span:hover{
+    text-decoration: underline;
+    color: #6678ff;
+}
+
 .icon-chart-preview svg{
     /*width: 50px;*/
     /*height: 50px;*/
@@ -377,12 +413,13 @@ a.panel-control-button{
 
 .leaflet-popup-content{
     min-width: 248px;
-    min-height: 248px;
+    /*min-height: 248px;*/
 }
 
 .widget-chart-gallery-piechart{
     text-align: center;
-    margin-top:40px;
+    /*margin-top:40px;*/
+    margin-top:10px;
 }
 
 .widget-chart-gallery-piechart .chart-view{
@@ -468,7 +505,7 @@ a.panel-control-button{
     color: #999999;
 }
 
-a.active{
+a.active, .sidebar.left .ui-navigation-group a.active{
     background-color: rgba(160,207,133,0.8);
     /*color: #333333;*/
     color: #007833;

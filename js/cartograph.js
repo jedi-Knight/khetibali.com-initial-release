@@ -9,7 +9,7 @@ function Map(options) {
         attributionControl: false,
         inertia: true
     };
-    
+
     if (options && options["mapOptions"]) {
         $.extend(mapOptions, options.mapOptions);
     }
@@ -61,15 +61,15 @@ function Map(options) {
         position: "topright"
     }).addTo(map);
     //layersControl._layers.dummylayer1.layer;
-    
-    function _getTileLayer(){
+
+    function _getTileLayer() {
         return osmTileLayer;
     }
-    
-    this.getTileLayer = function(){
+
+    this.getTileLayer = function() {
         return _getTileLayer();
     }
-    
+
     this.getMap = function() {
         return map;
     };
@@ -955,10 +955,18 @@ function UI_Navigation(options) {
         for (var tab in options.tabgroup.tabs) {
 
             (new UI_Button({
-                attributes: options.tabgroup.attributes,
+                attributes: $.extend({
+                    href: options.tabgroup.tabs[tab]
+                }, options.tabgroup.attributes),
                 eventHandlers: {
                     click: function(e, eventOptions) {
+                        e.preventDefault();
+                        //history.pushState(container.find("ui-navigation-group a.active").attr("class"));
+                        //history.pushState($(this).attr("href"));
+
+                        //history.pushState(this);
                         options.tabgroup.eventHandlers.click.call(this, e, eventOptions);
+
                     }
                 },
                 eventOptions: {
@@ -972,8 +980,9 @@ function UI_Navigation(options) {
     });
 
     function _getUI(options) {
-        if(!options) options = {};
-        var returnComponent = Boolean(options.componentSelector)?container.find(options.componentSelector):container;
+        if (!options)
+            options = {};
+        var returnComponent = Boolean(options.componentSelector) ? container.find(options.componentSelector) : container;
         return returnComponent;
     }
 
@@ -1164,12 +1173,18 @@ function UI_PiechartGallery(options) {
                 chartBox.attr("chart", chart);
                 chartBox.appendTo(widgetBox);
                 var chartOptions = {
-                    header: {
-                        title: {
-                            text: config["seasons"][chart],
-                            fontSize: 12
-                        }
-                    },
+                    /*header: {
+                     title: {
+                     text: config["seasons"][chart],
+                     fontSize: 12
+                     },
+                     location: "top-left"
+                     },*/
+                    /*footer: {
+                        text: config["seasons"][chart],
+                        fontSize: 12,
+                        location: "left"
+                    },*/
                     size: {
                         canvasHeight: 120,
                         canvasWidth: 120
@@ -1264,6 +1279,9 @@ function UI_PiechartGallery(options) {
 //                //console.log(options["label-position"]);
 //                $(chartBox[0]).find("text").attr("x", options["label-position"][0]);
 //                $(chartBox[0]).find("text").attr("y", options["label-position"][1]);
+            chartBox.append(function(){
+                    return $("<span></span>").text(config["seasons"][chart]);
+                });
             }
         }
     }, 0);
@@ -1278,45 +1296,46 @@ function UI_PiechartGallery(options) {
  * @param {type} options
  * @returns {undefined}
  *NEEDS TESTING
-function UI_LayerSwitcherLegend(options){
-    var groupingOptions = $.extend({
-        "filterFunction": function(options){
-            if((options.layer.feature.getAttributes()[options.categoryKey]).toLowerCase().indexOf(options.category)) return true;
-            else return false;
-        }
-    }, options);
-    var layerGroupDeferred = new LayerGroups(groupingOptions);
-    var layerGroups = {};
-    
-    var container = $("<div></div>").addClass("ui-layer-switcher-legend").addClass(options.class);
-    
-    layerGroupDeferred.done(function(_layerGroups){
-        layerGroups = _layerGroups;
-        console.log(L.control.layers({}, layerGroups));
-    });
-}
-**/
+ function UI_LayerSwitcherLegend(options){
+ var groupingOptions = $.extend({
+ "filterFunction": function(options){
+ if((options.layer.feature.getAttributes()[options.categoryKey]).toLowerCase().indexOf(options.category)) return true;
+ else return false;
+ }
+ }, options);
+ var layerGroupDeferred = new LayerGroups(groupingOptions);
+ var layerGroups = {};
+ 
+ var container = $("<div></div>").addClass("ui-layer-switcher-legend").addClass(options.class);
+ 
+ layerGroupDeferred.done(function(_layerGroups){
+ layerGroups = _layerGroups;
+ console.log(L.control.layers({}, layerGroups));
+ });
+ }
+ **/
 
-function UI_LayerSwitcherLegend(options){
+function UI_LayerSwitcherLegend(options) {
     var deferred = $.Deferred();
     var layerSwitcherLegend = L.control.layers($.extend({}, options.basemap), $.extend({}, options.layerGroups), $.extend({}, options.layerControlOptions)).addTo(options.map);
     var container = $(layerSwitcherLegend._container).addClass("ui-layerSwitcher-legend");
     container.hide();
-    
-    
-    setTimeout(function(){
-        container.find("input").each(function(){
+
+
+    setTimeout(function() {
+        container.find("input").each(function() {
             $(this).click();
             var legendID = $(this).parent().children("span").text().trim();
             var legendIcon = $("<div></div>").addClass("ui-legend-icon").addClass(legendID);
             legendIcon.css({
-                "background-image": config["layer-styles"]["legend-icons"][legendID]
+                "background-image": config["layer-styles"]["legend-icons"][legendID]["background-image"],
+                "background-color": config["layer-styles"]["legend-icons"][legendID]["background-color"]
             });
             legendIcon.insertAfter($(this));
         });
-    },0);
-    
-    
+    }, 0);
+
+
     return $.extend(true, {
         uiElement: container
     }, deferred.promise());

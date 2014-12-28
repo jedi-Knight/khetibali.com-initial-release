@@ -97,7 +97,7 @@ $(document).ready(function() {
         "khet": L.layerGroup(),
         "bari": L.layerGroup()
     };
-    
+
     var layerSwitcherLegend = new UI_LayerSwitcherLegend({
         layerGroups: legendLayerGroups,
         map: map,
@@ -406,7 +406,7 @@ $(document).ready(function() {
                                                 });
                                             });
 
-                                            
+
                                             try {
                                                 legendLayerGroups[feature.properties.getAttributes()["farming_system"]].addLayer(layer);
                                             } catch (e) {
@@ -419,7 +419,7 @@ $(document).ready(function() {
 
 
                                 });
-                                
+
                                 layerSwitcherLegend.uiElement.show();
 
                                 $("a.ui-map-view-reset").removeClass("inactive");
@@ -490,6 +490,10 @@ $(document).ready(function() {
             }
         }, 0);
     });
+
+    /*window.addEventListener("popstate", function(e) {
+        $(".ui-navigation.sidebar").find("a[href='"+e.state+"']").click();
+    });*/
 
 //    if (cartographOptions["mapOptions"]["zoom"] !== config["map-options"]["init-zoom"]) {
 //        setTimeout(function() {

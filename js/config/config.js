@@ -47,7 +47,10 @@ config = {
             fillOpacity: 0
         },
         "legend-icons":{
-            "khet": "images/khet.png",
+            "khet": {
+                "background-image":"images/khet.png",
+                //"background-color":"url('#khet')"
+            },
             "bari": "images/bari.png"
         }
     },
@@ -55,7 +58,7 @@ config = {
         title: "Khetibali",
         tabs: ["About Khetibali"]
     },
-    "main-headings": ["People", "Process"],
+    "main-headings": ["About Bajrabarahi","People", "Process"],
     "start-screen-zoom-limits":{
         "max":12,
         "min": 7
@@ -79,26 +82,12 @@ config = {
         "Chaitra"
     ],
     "seasons":{
-        "0":"Baishak-Ashad",
-        "3":"Shrawan-Aswin",
-        "6":"Kartik-Poush",
-        "9":"Magh-Chaitra"
+        "0":"Baishak - Ashad",
+        "3":"Shrawan - Aswin",
+        "6":"Kartik - Poush",
+        "9":"Magh - Chaitra"
     }
 };
 
 LayerStyles = config["layer-styles"];
 
-mainNavContentDef = {
-    "About Khetibali": [
-        
-    ],
-    "Bajrabarahi": [
-        
-    ],
-    "People": [
-        
-    ],
-    "Process": [
-        
-    ]
-};
