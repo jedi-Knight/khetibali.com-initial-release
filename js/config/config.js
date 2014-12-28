@@ -12,73 +12,53 @@ config = {
     "map-options":{
         "min-zoom": 1,
         "max-zoom": 22,
-        "init-zoom": 7,
+        "init-zoom": 7.4,
         "center": [28.09639, 82.66546]
     },
-    "map-features": {
-//        "road": {
-//            weight: 8.4,
-//            opacity: 1,
-//            //color: "#003366",
-//            color: "#000000",
-//            //"dashArray": "28 8",
-//            fillColor: "#669999",
-//            lineCap: "butt",
-//            lineJoin: "miter",
-//        },
-//        "sewerage": {
-//            weight: 6,
-//            opacity: 1,
-//            color: "#333300",
-//            //lineCap: "butt",
-//            "dashArray": "26 18",
-//            fillColor: "url(#blackwater)"
-//        },
-//        "water-supply": {
-//            weight: 8,
-//            opacity: 1,
-//            color: "#ff0000",
-//            "dashArray": "16 8",
-//            fillColor: "#ffff00"
-//        },
-//        "space": {
-//            weight: 4,
-//            opacity: 0.4,
-//            color: "#389416",
-//            //"dashArray": "16 8",
-//            fillColor: "url(#space)"
-//        },
-//        "heritage": {
-//            weight: 2,
-//            opacity: 1,
-//            color: "#333333",
-//            //"dashArray": "16 8",
-//            fillColor: "url(#heritage)"
-//        },
-//        "buildings":{
-//            weight: 2,
-//            color: "#666666",
-//            fillColor: "#ffcc00",
-//            fillOpacity: 1
-//        }
-//        ,
-//        "helper-styles": {
-//            "road": {
-//                weight: 1.4,
-//                opacity: 0,
-//                color: "#ffffff",
-//                dashArray: "12 8",
-//                lineCap: "butt",
-//                lineJoin: "miter",
-//                clickable: false
-//            }
-//        }
+    "layer-styles":{
+        "map-features":{
+            "khet":{
+                "color": "#766533",
+                "weight": 4,
+                "opacity": 1,
+                "fillColor": "url('#khet')",
+                "fillOpacity": 1
+            },
+            "bari":{
+                "color": "#eda900",
+                "weight": 4,
+                "opacity": 1,
+                "fillColor": "url('#bari')",
+                "fillOpacity": 1
+            },
+            "potato":{
+                fillColor: "url(#potatoes)",
+                fillOpacity: 1,
+                color: "#666666",
+                weight: 2
+            }
+        },
+        "pie-chart-segments":{
+            "rice": "#cccc33",
+            "potatoes": "#cc7700"
+        },
+        "inset-map-current-view":{
+            opacity: 0,
+            fillOpacity: 0
+        },
+        "legend-icons":{
+            "khet": {
+                "background-image":"images/khet.png",
+                //"background-color":"url('#khet')"
+            },
+            "bari": "images/bari.png"
+        }
     },
     "navbar": {
         title: "Khetibali",
-        tabs: ["About Khetibali"]
+        tabs: ["About"]
     },
-    "main-headings": ["People", "Process"],
+    "main-headings": ["About Bajrabarahi","Local OSM Community", "Photographs"],
     "start-screen-zoom-limits":{
         "max":12,
         "min": 7
@@ -100,20 +80,14 @@ config = {
         "Magh",
         "Falgun",
         "Chaitra"
-    ]
+    ],
+    "seasons":{
+        "0":"Baishak - Ashad",
+        "3":"Shrawan - Aswin",
+        "6":"Kartik - Poush",
+        "9":"Magh - Chaitra"
+    }
 };
 
-mainNavContentDef = {
-    "About Khetibali": [
-        
-    ],
-    "Bajrabarahi": [
-        
-    ],
-    "People": [
-        
-    ],
-    "Process": [
-        
-    ]
-};
+LayerStyles = config["layer-styles"];
+
