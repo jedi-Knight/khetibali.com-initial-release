@@ -12,7 +12,7 @@ $(document).ready(function() {
     welcomeMsg.appendTo("body");
     
     $(document).on("mousedown",function(e){
-        if($(e.target).is("a")){
+        if($(e.target).closest("a").length){
             welcomeMsg.remove();
         }
     });
@@ -343,7 +343,7 @@ $(document).ready(function() {
                                  config["navbar"]["tabs"].push(item);
                                  });*/
 
-                                //$("div.welcome-msg").remove();
+                                $("div.welcome-msg").remove();
 
                                 config["navbar"]["title"] = layer.feature.properties.getAttributes().name;
                                 config["navbar"]["tabs"] = config["main-headings"][layer.feature.properties.getAttributes().name.toLowerCase()]
