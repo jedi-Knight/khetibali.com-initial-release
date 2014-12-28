@@ -3,6 +3,8 @@ $(document).ready(function() {
 //        height: $(document).innerHeight() - 20,
 //        position: "initial !important"
     });
+    
+    var welcomeMsg = "Welcome to Khetibali. Please click on icons on the map to learn more about the place from an agriculture perspective. The mapping work has been completed for Bajrabarahi and we will be updating more places in near future.";
 
     var cartographOptions = {
         "mapOptions": {
@@ -251,6 +253,10 @@ $(document).ready(function() {
         uiObject.getUI().appendTo("body");
         layerSwitcherLegend.uiElement.hide();
         $("a.ui-map-view-reset").addClass("inactive");
+        
+        $("<div class='welcome-msg'></div>").text(welcomeMsg).append($("<span>X</span>").click(function(){
+            $(this).parent().remove();
+        })).appendTo("body");
     });
     /*$("<div class='col-plug'>").appendTo($("#extension-box").find(".ui-button-column-toggle"));*/
 
@@ -327,6 +333,8 @@ $(document).ready(function() {
                                  config["main-headings"].map(function(item, index) {
                                  config["navbar"]["tabs"].push(item);
                                  });*/
+                                
+                                $("div.welcome-msg").remove();
 
                                 config["navbar"]["title"] = layer.feature.properties.getAttributes().name;
                                 config["navbar"]["tabs"] = config["main-headings"][layer.feature.properties.getAttributes().name.toLowerCase()]

@@ -558,4 +558,52 @@ a.ui-map-view-reset:hover{
 .ui-sidebar-toggle span{
     opacity: 0;
 }
+
+/*div.welcome-msg{
+    padding: 10px;
+    font-size: 14pt;
+    color: #333333;
+    position: absolute;
+    left: 310px;
+    top: 400px;
+    width: 350px;
+    background-color: rgba(255,255,255,0.6);
+}*/
+
+/*div.welcome-msg{
+    padding: 10px;
+    font-size: 14pt;
+    color: #333333;
+    position: absolute;
+    left: 20px;
+    top: 400px;
+    width: 500px;
+    background-color: rgba(255,255,255,0.6);
+}*/
+
+div.welcome-msg{
+    padding: 16px;
+    font-size: 16pt;
+    color: #333333;
+    position: absolute;
+    left: 320px;
+    top: 50px;
+    width: 500px;
+    background-color: rgba(255,255,255,0.6);
+}
+
+div.welcome-msg span{
+    position: absolute;
+    right: 3px;
+    top: 3px;
+    border: #cccccc thin solid;
+    padding: 0px 4px 0px 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+div.welcome-msg span:hover{
+    /*background-color: rgba(0,0,0,0.02);*/
+    border: #999999 thin solid;
+    text-decoration: underline;
+}
 /**:TEMPORARY HACKS**/
