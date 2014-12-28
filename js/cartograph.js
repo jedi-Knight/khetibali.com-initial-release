@@ -1333,10 +1333,10 @@ function UI_LayerSwitcherLegend(options) {
             $(this).click();
             var legendID = $(this).parent().children("span").text().trim();
             var legendIcon = $("<div></div>").addClass("ui-legend-icon").addClass(legendID);
-            legendIcon.css({
+            /*legendIcon.css({
                 "background-image": config["layer-styles"]["legend-icons"][legendID]["background-image"],
                 "background-color": config["layer-styles"]["legend-icons"][legendID]["background-color"]
-            });
+            });*/
             legendIcon.insertAfter($(this));
         });
     }, 0);

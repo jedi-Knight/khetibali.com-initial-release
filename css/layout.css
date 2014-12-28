@@ -523,9 +523,19 @@ a.active:hover, a.active:active{
 
 .ui-legend-icon{
     display: inline-block;
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
+    background-size: 24px;
+    vertical-align: text-bottom;
+    margin-bottom: 2px;
 }
+.ui-legend-icon.khet{
+    background-image: url("images/khet.png");
+}
+.ui-legend-icon.bari{
+    background-image: url("images/bari.png");
+}
+
 
 .ui-layerSwitcher-legend{
     text-transform: capitalize;
