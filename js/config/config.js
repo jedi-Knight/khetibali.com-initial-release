@@ -59,8 +59,8 @@ config = {
         tabs: ["About"]
     },
     "main-headings":{
-        "start-page": ["About Khetibali"],
-        "bajrabarahi":["About Bajrabarahi","People", "Process"]
+        "start-page": ["About"],
+        "bajrabarahi":["About Bajrabarahi","Local OSM Community", "Photographs"]
     },
     "start-screen-zoom-limits":{
         "max":12,
