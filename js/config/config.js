@@ -67,7 +67,7 @@ config = {
         "min": 7
     },
     "basemap-servers": [
-        "http://{s}.tile.openstreetmap.org",
+        //"http://{s}.tile.openstreetmap.org",
         "http://104.131.69.181/osm"
     ],
     "month-list":[

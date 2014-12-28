@@ -56,11 +56,17 @@ function Map(options) {
 
     var overlayMaps = {
     };
-
+    
+    L.control.zoom({
+        position: "topright"
+    }).addTo(map);
+    
     var layersControl = L.control.layers(baseMaps, overlayMaps, {
         position: "topright"
     }).addTo(map);
     //layersControl._layers.dummylayer1.layer;
+    
+    
 
     function _getTileLayer() {
         return osmTileLayer;
