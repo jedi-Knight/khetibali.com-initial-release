@@ -67,8 +67,8 @@ config = {
         "min": 7
     },
     "basemap-servers": [
-        //"http://{s}.tile.openstreetmap.org",
-        "http://104.131.69.181/osm"
+        "http://{s}.tile.openstreetmap.org"
+        // "http://otile1.mqcdn.com/tiles/1.0.0/sat"
     ],
     "month-list":[
         "Baishak",
